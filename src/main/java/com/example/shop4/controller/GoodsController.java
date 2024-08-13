@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
@@ -28,4 +30,15 @@ public class GoodsController {
         GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
         return ResponseEntity.ok(goodsDto);
     }
+
+    @GetMapping
+    public ResponseEntity<List<GoodsDto>> getAllGoods() {
+        List<GoodsDto> goods = goodsService.getAllGoods();
+        return ResponseEntity.ok(goods);
+}
+    @GetMapping("{id}")
+    public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
+        GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
+        return ResponseEntity.ok(goodsDto);
+    }   
 }
