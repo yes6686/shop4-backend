@@ -10,4 +10,5 @@ public interface GoodsService {
     GoodsDto updateGoods(Long goodsId, GoodsDto updatedGoods);
     List<GoodsDto> getAllGoods();
     GoodsDto getGoodsById(Long Goods);
+    GoodsDto deleteGoods(Long id);
 }
