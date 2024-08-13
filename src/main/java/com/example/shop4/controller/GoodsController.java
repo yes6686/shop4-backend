@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
@@ -19,5 +21,11 @@ public class GoodsController {
     public ResponseEntity<GoodsDto> createGoods(@RequestBody GoodsDto goodsDto) {
         GoodsDto savedGoods = goodsService.createGoods(goodsDto);
         return new ResponseEntity<>(savedGoods, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GoodsDto>> getAllGoods() {
+        List<GoodsDto> goods = goodsService.getAllGoods();
+        return ResponseEntity.ok(goods);
     }
 }

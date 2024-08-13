@@ -8,6 +8,9 @@ import com.example.shop4.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
@@ -19,5 +22,12 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods = GoodsMapper.mapToGoods(goodsDto);
         Goods savedGoods = goodsRepository.save(goods);
         return GoodsMapper.mapToGoodsDto(savedGoods);
+    }
+
+    @Override
+    public List<GoodsDto> getAllGoods() {
+        List<Goods> goods = goodsRepository.findAll();
+        return goods.stream().map((member)->
+                GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
     }
 }
