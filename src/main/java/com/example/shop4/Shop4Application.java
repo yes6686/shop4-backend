@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Shop4Application {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(Shop4Application.class, args);
+		System.out.println("안녕하세요");
 	}
 
 }
