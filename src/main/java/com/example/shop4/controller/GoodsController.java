@@ -2,6 +2,7 @@ package com.example.shop4.controller;
 
 
 import com.example.shop4.dto.GoodsDto;
+import com.example.shop4.entity.Goods;
 import com.example.shop4.service.GoodsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,5 +20,12 @@ public class GoodsController {
     public ResponseEntity<GoodsDto> createGoods(@RequestBody GoodsDto goodsDto) {
         GoodsDto savedGoods = goodsService.createGoods(goodsDto);
         return new ResponseEntity<>(savedGoods, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id,
+                                                @RequestBody GoodsDto updatedGoods) {
+        GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
+        return ResponseEntity.ok(goodsDto);
     }
 }
