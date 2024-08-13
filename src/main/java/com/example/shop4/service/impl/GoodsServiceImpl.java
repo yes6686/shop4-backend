@@ -2,6 +2,7 @@ package com.example.shop4.service.impl;
 
 import com.example.shop4.dto.GoodsDto;
 import com.example.shop4.entity.Goods;
+import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.mapper.GoodsMapper;
 import com.example.shop4.repository.GoodsRepository;
 import com.example.shop4.service.GoodsService;
@@ -25,9 +26,19 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+
     public List<GoodsDto> getAllGoods() {
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((member)->
                 GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
-    }
+}
+  
+    public GoodsDto getGoodsById(Long goodsId) {
+        Goods goods = goodsRepository.findById(goodsId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
+
+        return GoodsMapper.mapToGoodsDto(goods);
+
+  
 }

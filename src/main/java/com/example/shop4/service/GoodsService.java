@@ -7,5 +7,10 @@ import java.util.List;
 public interface GoodsService {
 
     GoodsDto createGoods(GoodsDto goodsDto);
+
     List<GoodsDto> getAllGoods();
+
+
+    GoodsDto getGoodsById(Long Goods);
+
 }

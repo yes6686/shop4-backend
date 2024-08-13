@@ -2,6 +2,7 @@ package com.example.shop4.controller;
 
 
 import com.example.shop4.dto.GoodsDto;
+import com.example.shop4.entity.Goods;
 import com.example.shop4.service.GoodsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,15 @@ public class GoodsController {
         return new ResponseEntity<>(savedGoods, HttpStatus.CREATED);
     }
 
+
     @GetMapping
     public ResponseEntity<List<GoodsDto>> getAllGoods() {
         List<GoodsDto> goods = goodsService.getAllGoods();
         return ResponseEntity.ok(goods);
-    }
+}
+    @GetMapping("{id}")
+    public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
+        GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
+        return ResponseEntity.ok(goodsDto);
+    
 }
