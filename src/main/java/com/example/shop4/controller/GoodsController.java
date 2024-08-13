@@ -23,6 +23,12 @@ public class GoodsController {
         return new ResponseEntity<>(savedGoods, HttpStatus.CREATED);
     }
 
+    @PatchMapping("{id}")
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id,
+                                                @RequestBody GoodsDto updatedGoods) {
+        GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
+        return ResponseEntity.ok(goodsDto);
+    }
     @GetMapping
     public ResponseEntity<List<GoodsDto>> getAllGoods() {
         List<GoodsDto> goods = goodsService.getAllGoods();

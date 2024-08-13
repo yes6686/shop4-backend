@@ -7,7 +7,7 @@ import java.util.List;
 public interface GoodsService {
 
     GoodsDto createGoods(GoodsDto goodsDto);
-
+    GoodsDto updateGoods(Long goodsId, GoodsDto updatedGoods);
     List<GoodsDto> getAllGoods();
     GoodsDto getGoodsById(Long Goods);
     GoodsDto deleteGoods(Long id);
