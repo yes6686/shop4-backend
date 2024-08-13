@@ -35,7 +35,8 @@ public class GoodsController {
     public ResponseEntity<List<GoodsDto>> getAllGoods() {
         List<GoodsDto> goods = goodsService.getAllGoods();
         return ResponseEntity.ok(goods);
-}
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
         GoodsDto goodsDto = goodsService.getGoodsById(goodsId);

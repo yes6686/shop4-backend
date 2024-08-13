@@ -47,12 +47,13 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((member)->
                 GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
-}
+    }
   
     public GoodsDto getGoodsById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
-                .orElseThrow(()->
-                        new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Goods is not exists with given id : " + goodsId));
 
         return GoodsMapper.mapToGoodsDto(goods);
+    }
 }
