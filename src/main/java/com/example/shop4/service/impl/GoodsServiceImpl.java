@@ -35,10 +35,10 @@ public class GoodsServiceImpl implements GoodsService {
   
     public GoodsDto getGoodsById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
-                .orElseThrow(()->
-                        new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Goods is not exists with given id : " + goodsId));
 
         return GoodsMapper.mapToGoodsDto(goods);
 
-  
+    }
 }
