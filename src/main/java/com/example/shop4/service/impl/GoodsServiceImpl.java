@@ -26,5 +26,5 @@ public class GoodsServiceImpl implements GoodsService {
             goodsRepository.delete(target);
         }
         return GoodsMapper.mapToGoodsDto(target);
-    }
+    } //mm
 }

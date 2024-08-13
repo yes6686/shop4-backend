@@ -26,4 +26,4 @@ public class GoodsController {
         GoodsDto target = goodsService.deleteGoods(id);
         return new ResponseEntity<>(target, HttpStatus.OK);
     }
-}
+}//mm
