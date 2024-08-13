@@ -34,10 +34,23 @@ public class GoodsController {
     public ResponseEntity<List<GoodsDto>> getAllGoods() {
         List<GoodsDto> goods = goodsService.getAllGoods();
         return ResponseEntity.ok(goods);
-}
+    }
     @GetMapping("{id}")
     public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
         GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
         return ResponseEntity.ok(goodsDto);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable("id") Long goodsId,
+                                                @RequestBody GoodsDto updatedGoods) {
+        GoodsDto goodsDto = goodsService.updateGoods(goodsId, updatedGoods);
+        return ResponseEntity.ok(goodsDto);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteGoods(@PathVariable("id") Long goodsId) {
+        goodsService.deleteGoods(goodsId);
+        return ResponseEntity.ok("Goods deleted successfully..!");
     }   
 }
