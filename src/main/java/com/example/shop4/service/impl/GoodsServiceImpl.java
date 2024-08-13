@@ -2,7 +2,6 @@ package com.example.shop4.service.impl;
 
 import com.example.shop4.dto.GoodsDto;
 import com.example.shop4.entity.Goods;
-import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.mapper.GoodsMapper;
 import com.example.shop4.repository.GoodsRepository;
 import com.example.shop4.service.GoodsService;
@@ -24,6 +23,14 @@ public class GoodsServiceImpl implements GoodsService {
         Goods savedGoods = goodsRepository.save(goods);
         return GoodsMapper.mapToGoodsDto(savedGoods);
     }
+    @Override
+    public GoodsDto deleteGoods(Long id) {
+        Goods target = goodsRepository.findById(id).orElse(null);
+        if (target != null) {
+            goodsRepository.delete(target);
+        }
+        return GoodsMapper.mapToGoodsDto(target);
+    } //mm
 
     @Override
 
