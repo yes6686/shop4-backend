@@ -7,12 +7,8 @@ import java.util.List;
 public interface GoodsService {
 
     GoodsDto createGoods(GoodsDto goodsDto);
-
-    GoodsDto getGoodsById(Long Goods);
-
     List<GoodsDto> getAllGoods();
-
+    GoodsDto getGoodsById(Long Goods);
     GoodsDto updateGoods(Long goodsId, GoodsDto updatedGood);
-
     void deleteGoods(Long goodsId);
 }

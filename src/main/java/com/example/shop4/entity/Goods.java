@@ -23,3 +23,5 @@ public class Goods {
     private String url;
     private String category;
 }
+
+
