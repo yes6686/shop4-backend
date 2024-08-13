@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
+
     @Autowired
     private GoodsRepository goodsRepository;
 
@@ -27,4 +28,13 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return GoodsMapper.mapToGoodsDto(target);
     } //mm
+
+    @Override
+    public GoodsDto getGoodsById(Long goodsId) {
+        Goods goods = goodsRepository.findById(goodsId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
+
+        return GoodsMapper.mapToGoodsDto(goods);
+    }
 }
