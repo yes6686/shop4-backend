@@ -34,5 +34,5 @@ public class GoodsController {
     public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
         GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
         return ResponseEntity.ok(goodsDto);
-    
+    }   
 }
