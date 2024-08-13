@@ -25,38 +25,7 @@ public class GoodsServiceImpl implements GoodsService {
         Goods savedGoods = goodsRepository.save(goods);
         return GoodsMapper.mapToGoodsDto(savedGoods);
     }
-    @Override
-    public GoodsDto deleteGoods(Long id) {
-        Goods target = goodsRepository.findById(id).orElse(null);
-        if (target != null) {
-            goodsRepository.delete(target);
-        }
-        return GoodsMapper.mapToGoodsDto(target);
-    } //mm
 
-    @Override
-    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGoods) {
-        Goods goods = goodsRepository.findById(goodsId).orElseThrow(
-                ()-> new ResourceNotFoundException("Goods is not exists with given id: " + goodsId)
-        );
-
-        goods.setPrice(updatedGoods.getPrice());
-        goods.setName(updatedGoods.getName());
-        goods.setStock(updatedGoods.getStock());
-        goods.setCategory(updatedGoods.getCategory());
-        goods.setDescription(updatedGoods.getDescription());
-        goods.setUrl(updatedGoods.getUrl());
-
-        Goods updatedGoodsObj = goodsRepository.save(goods);
-        return GoodsMapper.mapToGoodsDto(updatedGoodsObj);
-    }
-
-    public List<GoodsDto> getAllGoods() {
-        List<Goods> goods = goodsRepository.findAll();
-        return goods.stream().map((member)->
-                GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
-    }
-  
     public GoodsDto getGoodsById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
                 .orElseThrow(() ->

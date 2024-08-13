@@ -24,8 +24,7 @@ public class GoodsController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id,
-                                                @RequestBody GoodsDto updatedGoods) {
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id, @RequestBody GoodsDto updatedGoods) {
         GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
         return ResponseEntity.ok(goodsDto);
     }
@@ -38,13 +37,6 @@ public class GoodsController {
     @GetMapping("{id}")
     public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
         GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
-        return ResponseEntity.ok(goodsDto);
-    }
-
-    @PutMapping("{id}")
-    public ResponseEntity<GoodsDto> updateGoods(@PathVariable("id") Long goodsId,
-                                                @RequestBody GoodsDto updatedGoods) {
-        GoodsDto goodsDto = goodsService.updateGoods(goodsId, updatedGoods);
         return ResponseEntity.ok(goodsDto);
     }
 
