@@ -54,7 +54,7 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((member)->
                 GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
-}
+    }
   
     public GoodsDto getGoodsById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
