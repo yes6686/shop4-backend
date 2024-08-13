@@ -8,6 +8,9 @@ import com.example.shop4.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
@@ -30,11 +33,19 @@ public class GoodsServiceImpl implements GoodsService {
     } //mm
 
     @Override
+
+    public List<GoodsDto> getAllGoods() {
+        List<Goods> goods = goodsRepository.findAll();
+        return goods.stream().map((member)->
+                GoodsMapper.mapToGoodsDto(member)).collect(Collectors.toList());
+}
+  
     public GoodsDto getGoodsById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
                 .orElseThrow(()->
                         new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
 
         return GoodsMapper.mapToGoodsDto(goods);
-    }
+
+  
 }
