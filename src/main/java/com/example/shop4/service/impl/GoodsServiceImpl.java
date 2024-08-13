@@ -9,6 +9,9 @@ import com.example.shop4.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
@@ -29,5 +32,35 @@ public class GoodsServiceImpl implements GoodsService {
                         new ResourceNotFoundException("Goods is not exists with given id : "+goodsId));
 
         return GoodsMapper.mapToGoodsDto(goods);
+    }
+
+    @Override
+    public List<GoodsDto> getAllGoods() {
+        List<Goods> goods = goodsRepository.findAll();
+        return goods.stream().map((good)->GoodsMapper.mapToGoodsDto(good))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGood) {
+        Goods goods = goodsRepository.findById(goodsId).orElseThrow(
+                ()->new ResourceNotFoundException("Employee is not exists with given id : "+goodsId)
+        );
+        goods.setPrice(updatedGood.getPrice());
+        goods.setStock(updatedGood.getStock());
+        goods.setName(updatedGood.getName());
+        goods.setDescription(updatedGood.getDescription());
+        goods.setUrl(updatedGood.getUrl());
+        goods.setCategory(updatedGood.getCategory());
+        Goods updatedGoodsObj = goodsRepository.save(goods);
+        return GoodsMapper.mapToGoodsDto(updatedGoodsObj);
+    }
+
+    @Override
+    public void deleteGoods(Long goodsId) {
+        Goods goods = goodsRepository.findById(goodsId).orElseThrow(
+                ()-> new ResourceNotFoundException("Goods is not exists with given id : "+goodsId)
+        );
+        goodsRepository.deleteById(goodsId);
     }
 }
