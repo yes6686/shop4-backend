@@ -2,7 +2,6 @@ package com.example.shop4.controller;
 
 
 import com.example.shop4.dto.GoodsDto;
-import com.example.shop4.entity.Goods;
 import com.example.shop4.service.GoodsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
