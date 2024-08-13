@@ -2,6 +2,7 @@ package com.example.shop4.service.impl;
 
 import com.example.shop4.dto.GoodsDto;
 import com.example.shop4.entity.Goods;
+import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.mapper.GoodsMapper;
 import com.example.shop4.repository.GoodsRepository;
 import com.example.shop4.service.GoodsService;
