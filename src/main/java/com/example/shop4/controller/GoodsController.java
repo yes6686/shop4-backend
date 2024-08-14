@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-// 테스트용 주석
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
