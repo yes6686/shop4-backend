@@ -35,7 +35,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<GoodsDto> getAllGoods() { // goods의 단수형은 goodg
+    public List<GoodsDto> getAllGoods() { // goods의 단수형은 good
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((good)->GoodsMapper.mapToGoodsDto(good))
                 .collect(Collectors.toList());
