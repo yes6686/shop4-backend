@@ -20,7 +20,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public GoodsDto createGoods(GoodsDto goodsDto) {
+        // DTO-> Entity로 변환
         Goods goods = GoodsMapper.mapToGoods(goodsDto);
+        //데이터베이스에 저장
         Goods savedGoods = goodsRepository.save(goods);
         return GoodsMapper.mapToGoodsDto(savedGoods);
     }
@@ -41,17 +43,14 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGood) {
+    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGoods) {
         Goods goods = goodsRepository.findById(goodsId).orElseThrow(
                 ()->new ResourceNotFoundException("Employee is not exists with given id : "+goodsId)
         );
-        goods.setPrice(updatedGood.getPrice());
-        goods.setStock(updatedGood.getStock());
-        goods.setName(updatedGood.getName());
-        goods.setDescription(updatedGood.getDescription());
-        goods.setUrl(updatedGood.getUrl());
-        goods.setCategory(updatedGood.getCategory());
+        goods.patch(updatedGoods);
+
         Goods updatedGoodsObj = goodsRepository.save(goods);
+
         return GoodsMapper.mapToGoodsDto(updatedGoodsObj);
     }
 
