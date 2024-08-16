@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/Goods")
+@RequestMapping("/api/goods")
 public class GoodsController {
     private GoodsService goodsService;
 
@@ -24,7 +24,8 @@ public class GoodsController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id, @RequestBody GoodsDto updatedGoods) {
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id,
+                                                @RequestBody GoodsDto updatedGoods) {
         GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
         return ResponseEntity.ok(goodsDto);
     }
