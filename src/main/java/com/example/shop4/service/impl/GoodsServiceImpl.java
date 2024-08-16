@@ -7,7 +7,6 @@ import com.example.shop4.mapper.GoodsMapper;
 import com.example.shop4.repository.GoodsRepository;
 import com.example.shop4.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public GoodsDto createGoods(GoodsDto goodsDto) {
+        // DTO-> Entity로 변환
         Goods goods = GoodsMapper.mapToGoods(goodsDto);
+        //데이터베이스에 저장
         Goods savedGoods = goodsRepository.save(goods);
         return GoodsMapper.mapToGoodsDto(savedGoods);
     }
@@ -35,24 +36,21 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<GoodsDto> getAllGoods() {
+    public List<GoodsDto> getAllGoods() { // goods의 단수형은 good
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((good)->GoodsMapper.mapToGoodsDto(good))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGood) {
+    public GoodsDto updateGoods(Long goodsId, GoodsDto updatedGoods) {
         Goods goods = goodsRepository.findById(goodsId).orElseThrow(
                 ()->new ResourceNotFoundException("Employee is not exists with given id : "+goodsId)
         );
-        goods.setPrice(updatedGood.getPrice());
-        goods.setStock(updatedGood.getStock());
-        goods.setName(updatedGood.getName());
-        goods.setDescription(updatedGood.getDescription());
-        goods.setUrl(updatedGood.getUrl());
-        goods.setCategory(updatedGood.getCategory());
+        goods.patch(updatedGoods);
+
         Goods updatedGoodsObj = goodsRepository.save(goods);
+
         return GoodsMapper.mapToGoodsDto(updatedGoodsObj);
     }
 

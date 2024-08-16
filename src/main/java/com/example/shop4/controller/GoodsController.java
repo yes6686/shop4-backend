@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-// 테스트용 주석
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/Goods")
+@RequestMapping("/api/goods")
 public class GoodsController {
     private GoodsService goodsService;
 
@@ -24,7 +24,8 @@ public class GoodsController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id, @RequestBody GoodsDto updatedGoods) {
+    public ResponseEntity<GoodsDto> updateGoods(@PathVariable Long id,
+                                                @RequestBody GoodsDto updatedGoods) {
         GoodsDto goodsDto = goodsService.updateGoods(id, updatedGoods);
         return ResponseEntity.ok(goodsDto);
     }
