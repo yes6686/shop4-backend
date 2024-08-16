@@ -1,6 +1,8 @@
-package com.example.shop4.entity;
+package com.example.shop4.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,16 +10,11 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-
-public class Members {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MemberDto {
     private long id;
     private String name;
     private String email;
@@ -28,6 +25,4 @@ public class Members {
     private String gender;
     private String userId;
     private String userPw;
-
-
 }
