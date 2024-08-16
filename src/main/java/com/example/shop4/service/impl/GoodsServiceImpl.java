@@ -7,7 +7,6 @@ import com.example.shop4.mapper.GoodsMapper;
 import com.example.shop4.repository.GoodsRepository;
 import com.example.shop4.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<GoodsDto> getAllGoods() {
+    public List<GoodsDto> getAllGoods() { // goods의 단수형은 good
         List<Goods> goods = goodsRepository.findAll();
         return goods.stream().map((good)->GoodsMapper.mapToGoodsDto(good))
                 .collect(Collectors.toList());
