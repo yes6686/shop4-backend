@@ -44,5 +44,5 @@ public class GoodsController {
     public ResponseEntity<String> deleteGoods(@PathVariable("id") Long goodsId) {
         goodsService.deleteGoods(goodsId);
         return ResponseEntity.ok("Goods deleted successfully..!");
-    }   
+    }
 }
