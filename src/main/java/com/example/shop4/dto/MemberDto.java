@@ -25,4 +25,5 @@ public class MemberDto {
     private String gender;
     private String userId;
     private String userPw;
+    private Long cash;
 }
