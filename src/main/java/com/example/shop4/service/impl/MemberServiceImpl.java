@@ -29,7 +29,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberDto> getAllMembers() {
         List<Member> members = memberRepository.findAll();
-        return members.stream().map((member) -> MemberMapper.mapToMemberDto(member))
+        return members
+                .stream()
+                .map(MemberMapper::mapToMemberDto)
                 .collect(Collectors.toList());
     }
 
@@ -57,9 +59,23 @@ public class MemberServiceImpl implements MemberService {
     // 회원정보 삭제
     @Override
     public void deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+        memberRepository.findById(memberId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Member not exists with given id : " + memberId));
         memberRepository.deleteById(memberId);
+    }
+
+    // 회원 로그인 기능 서비스
+    @Override
+    public MemberDto loginMember(MemberDto dto) {
+        // 입력받은 userId 부터 검색하고
+
+        // 해당 유저의 비밀번호 비교
+
+        //loginDto에 있는 userId, userPw로 member 찾기
+        return memberRepository.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPw())
+                .map(MemberDto::createMemberDto)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("아이디 및 비밀번호가 일치하는 유저가 없습니다."));
     }
 }
