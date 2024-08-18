@@ -10,4 +10,8 @@ public interface MemberService {
     MemberDto getMemberById(Long memberId);
     MemberDto updateMember(Long memberId, MemberDto updatedMember);
     void deleteMember(Long memberId);
+
+    //로그인 서비스 기능
+    MemberDto loginMember(MemberDto dto);
+
 }

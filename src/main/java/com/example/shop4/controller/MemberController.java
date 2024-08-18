@@ -58,4 +58,10 @@ public class MemberController {
         return ResponseEntity.ok("Member deleted successfully..!");
     }
 
+    //로그인 요청
+    @PostMapping("login")
+    public ResponseEntity<MemberDto> loginMember(@RequestBody MemberDto dto) {
+        MemberDto findMember = memberService.loginMember(dto);
+        return new ResponseEntity<>(findMember,HttpStatus.OK);
+    }
 }

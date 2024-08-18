@@ -1,5 +1,6 @@
 package com.example.shop4.dto;
 
+import com.example.shop4.entity.Member;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,4 +27,21 @@ public class MemberDto {
     private String userId;
     private String userPw;
     private Long cash;
+
+    public static MemberDto createMemberDto(Member member) {
+        return new MemberDto(
+                member.getId(),
+                member.getName(),
+                member.getEmail(),
+                member.getAddress(),
+                member.getPhone(),
+                member.getAge(),
+                member.getBirth(),
+                member.getGender(),
+                member.getUserId(),
+                member.getUserPw(),
+                member.getCash()
+        );
+    }
+
 }
