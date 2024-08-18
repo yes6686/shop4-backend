@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
         List<Member> members = memberRepository.findAll();
         return members
                 .stream()
-                .map((member) -> MemberMapper.mapToMemberDto(member))
+                .map(MemberMapper::mapToMemberDto)
                 .collect(Collectors.toList());
     }
 
@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
     // 회원정보 삭제
     @Override
     public void deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+        memberRepository.findById(memberId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Member not exists with given id : " + memberId));
         memberRepository.deleteById(memberId);
