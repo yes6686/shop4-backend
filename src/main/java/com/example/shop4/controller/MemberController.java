@@ -1,7 +1,6 @@
 package com.example.shop4.controller;
 
 import com.example.shop4.dto.MemberDto;
-import com.example.shop4.entity.Member;
 import com.example.shop4.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
