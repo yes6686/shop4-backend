@@ -52,9 +52,10 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public List<CartDto> getAllCarts() {
-        List<Cart> carts = cartRepository.findAll();
-        return carts.stream().map((cart)->CartMapper.mapToCartDto(cart))
+    public List<CartDto> getAllCarts(Long memberId) {
+
+        List<Cart> selectedCarts = cartRepository.findAll().stream().filter(cart -> cart.getMember().getId().equals(memberId)).collect(Collectors.toList());
+        return selectedCarts.stream().map((cart)->CartMapper.mapToCartDto(cart))
                 .collect(Collectors.toList());
     }
 
