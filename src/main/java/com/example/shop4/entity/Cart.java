@@ -19,10 +19,10 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long quantity; //장바구니 수량
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType. EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType. EAGER) //LAZY이용시 json 직렬화 오류  EAGER 쓰면 즉시로딩되서 오류안남 자세한건 모름
     @JoinColumn(name = "goods_id")
     private Goods goods;
 
