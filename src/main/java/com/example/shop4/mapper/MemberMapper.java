@@ -15,7 +15,8 @@ public class MemberMapper {
                 member.getBirth(),
                 member.getGender(),
                 member.getUserId(),
-                member.getUserPw()
+                member.getUserPw(),
+                member.getCash()
         );
     }
 
@@ -30,7 +31,8 @@ public class MemberMapper {
                 memberDto.getBirth(),
                 memberDto.getGender(),
                 memberDto.getUserId(),
-                memberDto.getUserPw()
+                memberDto.getUserPw(),
+                memberDto.getCash()
         );
     }
 }

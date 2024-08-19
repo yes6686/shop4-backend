@@ -19,6 +19,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    //회원 추가
     @PostMapping
     public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
         MemberDto created = memberService.createMember(memberDto);
@@ -26,6 +27,7 @@ public class MemberController {
         return new ResponseEntity<>(created, HttpStatus.OK);
     }
 
+    // 회원 조회
     @GetMapping("{id}")
     public ResponseEntity<MemberDto> getMember(@PathVariable("id") Long id) {
         MemberDto memberDto = memberService.getMemberById(id);
@@ -33,11 +35,27 @@ public class MemberController {
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
+    // 모든 회원 조회
     @GetMapping
     public ResponseEntity<List<MemberDto>> getMember() {
         List<MemberDto> memberDtos = memberService.getAllMembers();
 
         return new ResponseEntity<>(memberDtos, HttpStatus.OK);
+    }
+
+    // 회원 정보 수정
+    @PatchMapping("{id}")
+    public ResponseEntity<MemberDto> updateMember(@PathVariable("id") Long id,
+                                                  @RequestBody MemberDto updatedMember) {
+        MemberDto memberDto = memberService.updateMember(id, updatedMember);
+        return ResponseEntity.ok(memberDto);
+    }
+
+    // 회원 정보 삭제
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteMember(@PathVariable("id") Long memberId) {
+        memberService.deleteMember(memberId);
+        return ResponseEntity.ok("Member deleted successfully..!");
     }
 
 }

@@ -17,12 +17,15 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    // 회원 추가
     @Override
     public MemberDto createMember(MemberDto memberDto) {
         Member member = MemberMapper.mapToMember(memberDto);
-        return MemberMapper.mapToMemberDto(memberRepository.save(member));
+        Member savedMember = memberRepository.save(member);
+        return MemberMapper.mapToMemberDto(savedMember);
     }
 
+    // 모든 회원 조회
     @Override
     public List<MemberDto> getAllMembers() {
         List<Member> members = memberRepository.findAll();
@@ -30,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
+    // 회원 조회
     @Override
     public MemberDto getMemberById(Long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -39,11 +43,18 @@ public class MemberServiceImpl implements MemberService {
         return MemberMapper.mapToMemberDto(member);
     }
 
+    // 회원정보 수정
     @Override
     public MemberDto updateMember(Long memberId, MemberDto updatedMember) {
-        return null;
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                ()-> new ResourceNotFoundException("Member not exists with given id : " + memberId)
+        );
+        member.patch(updatedMember);
+        Member updatedMemberObj = memberRepository.save(member);
+        return MemberMapper.mapToMemberDto(updatedMemberObj);
     }
 
+    // 회원정보 삭제
     @Override
     public void deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
