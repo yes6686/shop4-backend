@@ -1,7 +1,6 @@
 package com.example.shop4.controller;
 
 import com.example.shop4.dto.MemberDto;
-import com.example.shop4.entity.Member;
 import com.example.shop4.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +57,10 @@ public class MemberController {
         return ResponseEntity.ok("Member deleted successfully..!");
     }
 
+    //로그인 요청
+    @PostMapping("login")
+    public ResponseEntity<MemberDto> loginMember(@RequestBody MemberDto dto) {
+        MemberDto findMember = memberService.loginMember(dto);
+        return new ResponseEntity<>(findMember,HttpStatus.OK);
+    }
 }
