@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -62,5 +64,12 @@ public class MemberController {
     public ResponseEntity<MemberDto> loginMember(@RequestBody MemberDto dto) {
         MemberDto findMember = memberService.loginMember(dto);
         return new ResponseEntity<>(findMember,HttpStatus.OK);
+    }
+
+    // userId가 있는지 체크하기
+    @GetMapping("check/{userId}")
+    public ResponseEntity<Boolean> checkMember(@PathVariable("userId") String userId) {
+        boolean exists = memberService.checkUserId(userId);
+        return ResponseEntity.ok(exists);
     }
 }
