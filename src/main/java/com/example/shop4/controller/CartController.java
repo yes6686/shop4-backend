@@ -38,17 +38,17 @@ public class CartController {
         return ResponseEntity.ok(cartDto);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("member/{id}")
     public ResponseEntity<List<CartDto>> getAllCarts(@PathVariable("id") Long memberId) {
         List<CartDto> carts = cartService.getAllCarts(memberId);
         return ResponseEntity.ok(carts);
     }
-//    @GetMapping("{id}")
-//    public ResponseEntity<CartDto> getCartById(@PathVariable("id") Long cartId){
-//        CartDto cartDto = cartService.getCartById(cartId);
-//        return ResponseEntity.ok(cartDto);
-//    }
-// cartId로 가져오기 일단 안쓸거같아서 주석처리
+    @GetMapping("{id}")
+    public ResponseEntity<CartDto> getCartById(@PathVariable("id") Long cartId){
+        CartDto cartDto = cartService.getCartById(cartId);
+        return ResponseEntity.ok(cartDto);
+    }
+    //cartId로 가져오기 일단 안쓸거같아서 주석처리
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCart(@PathVariable("id") Long cartId) {
