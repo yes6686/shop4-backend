@@ -74,8 +74,14 @@ public class MemberServiceImpl implements MemberService {
 
         //loginDto에 있는 userId, userPw로 member 찾기
         return memberRepository.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPw())
-                .map(MemberDto::createMemberDto)
+                .map(MemberDto::createMemberDto) //userId랑 userPw가 있으면 해당 엔티티를 dto로 만든다!
                 .orElseThrow(() ->
                         new ResourceNotFoundException("아이디 및 비밀번호가 일치하는 유저가 없습니다."));
+    }
+
+    // userId 중복 확인
+    @Override
+    public boolean checkUserId(String userId) {
+        return memberRepository.findByUserId(userId).isPresent();
     }
 }
