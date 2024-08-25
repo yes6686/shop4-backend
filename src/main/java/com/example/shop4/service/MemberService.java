@@ -14,4 +14,5 @@ public interface MemberService {
     //로그인 서비스 기능
     MemberDto loginMember(MemberDto dto);
 
+    boolean checkUserId(String userId);
 }
