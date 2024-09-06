@@ -19,7 +19,6 @@ import java.util.Map;
 public class MemberController {
     @Autowired
     private MemberService memberService;
-
     //회원 추가
     @PostMapping
     public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
@@ -27,7 +26,6 @@ public class MemberController {
 
         return new ResponseEntity<>(created, HttpStatus.OK);
     }
-
     // 회원 조회
     @GetMapping("{id}")
     public ResponseEntity<MemberDto> getMember(@PathVariable("id") Long id) {
