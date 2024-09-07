@@ -19,11 +19,9 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/api/cart")
-
 public class CartController {
 
     private CartService cartService;
-
 
     @PostMapping
     public ResponseEntity<CartDto> createGoods(@RequestBody CartDto cartDto) {
@@ -55,6 +53,4 @@ public class CartController {
         cartService.deleteCart(cartId);
         return ResponseEntity.ok("Carts deleted successfully..!");
     }
-
-
 }

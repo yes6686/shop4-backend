@@ -13,6 +13,7 @@ public class GoodsMapper {
                 goods.getDescription(),
                 goods.getUrl(),
                 goods.getCategory()
+               // goods.getComments()
         );
     }
 
@@ -25,6 +26,7 @@ public class GoodsMapper {
                 goodsDto.getDescription(),
                 goodsDto.getUrl(),
                 goodsDto.getCategory()
+               // goodsDto.getComments()
         );
     }
 }
