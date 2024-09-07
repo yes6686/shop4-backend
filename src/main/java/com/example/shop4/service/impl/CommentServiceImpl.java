@@ -55,6 +55,5 @@ public class CommentServiceImpl implements CommentService {
         );
         commentRepository.delete(comment);
     }
-    // 게시글을 작성한 유저인지 확인
 
 }
