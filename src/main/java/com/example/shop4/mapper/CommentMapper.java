@@ -12,7 +12,8 @@ public class CommentMapper {
                 comment.getComment(),
                 comment.getCreatedDate(),
                 comment.getModifiedDate(),
-                comment.getLike()
+                comment.getLike(),
+                comment.getLikedMembers()
         );
 
     }
@@ -25,7 +26,8 @@ public class CommentMapper {
                 commentDto.getComment(),
                 commentDto.getCreatedDate(),
                 commentDto.getModifiedDate(),
-                commentDto.getLike()
+                commentDto.getLike(),
+                commentDto.getLikedMembers()
         );
     }
 }

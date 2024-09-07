@@ -1,5 +1,6 @@
 package com.example.shop4.dto;
 
+import com.example.shop4.entity.Comment;
 import com.example.shop4.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +27,7 @@ public class MemberDto {
     private String userId;
     private String userPw;
     private Long cash;
+    private Set<Comment> likedComments = new HashSet<>();
 
     public static MemberDto createMemberDto(Member member) {
         return new MemberDto(
@@ -37,7 +41,8 @@ public class MemberDto {
                 member.getGender(),
                 member.getUserId(),
                 member.getUserPw(),
-                member.getCash()
+                member.getCash(),
+                member.getLikedComments()
         );
     }
 

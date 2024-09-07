@@ -1,18 +1,23 @@
 package com.example.shop4.entity;
 
 import com.example.shop4.dto.CommentDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class) // @CreatedDate와 @LastModifiedDate 활성화
@@ -42,6 +47,10 @@ public class Comment {
 
     @Column(name = "like_count")
     private Long like; // 좋아요 수
+
+    @ManyToMany(mappedBy = "likedComments")
+    @JsonIgnore //  무한한 순환 참조 문제를 방지
+    private Set<Member> likedMembers = new HashSet<>();
 
 
     // 댓글 수정
