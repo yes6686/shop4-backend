@@ -11,6 +11,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +26,5 @@ public class CommentDto {
     private LocalDateTime createdDate; // 댓글 생성 시간
     private LocalDateTime modifiedDate; // 댓글 수정 시간
     private Long like; // 좋아요 수
+    private Set<Member> likedMembers = new HashSet<>();
 }

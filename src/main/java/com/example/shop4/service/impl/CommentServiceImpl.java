@@ -21,6 +21,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Override
     public CommentDto createComment(CommentDto commentDto) {
@@ -55,6 +57,27 @@ public class CommentServiceImpl implements CommentService {
         );
         commentRepository.delete(comment);
     }
-    // 게시글을 작성한 유저인지 확인
 
+    @Override
+    public int likeOrUnlikeComment(Long commentId, Long memberId) {
+        int isLike = 1;
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                ()->new ResourceNotFoundException("Member not found id : "+memberId));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment not found id : "+commentId));
+
+        if(comment.getLikedMembers().contains(member)){ // 좋아요를 이미 누른 상태면 해제
+            comment.getLikedMembers().remove(member);
+            member.getLikedComments().remove(comment);
+            comment.setLike(comment.getLike()-1);
+            isLike = 0;
+        }else{ // 좋아요를 안 누른 상태면 활성화
+            comment.getLikedMembers().add(member);
+            member.getLikedComments().add(comment);
+            comment.setLike(comment.getLike()+1);
+        }
+        memberRepository.save(member);
+        commentRepository.save(comment);
+        return isLike;
+    }
 }

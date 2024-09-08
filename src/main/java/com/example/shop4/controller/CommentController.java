@@ -43,5 +43,17 @@ public class CommentController {
         return ResponseEntity.ok("Comment deleted successfully.....!!!! 무야호~");
     }
 
+    @PostMapping("/like/{commentId}/{memberId}")
+    public ResponseEntity<Integer> likeOrUnlikeComment(
+            @PathVariable Long commentId,
+            @PathVariable Long memberId
+    ){
+        System.out.println("commentId = " + commentId);
+        System.out.println("memberId = " + memberId);
+        int isLike = commentService.likeOrUnlikeComment(commentId, memberId);
+
+        return new ResponseEntity<>(isLike, HttpStatus.CREATED);
+    }
+
 
 }
