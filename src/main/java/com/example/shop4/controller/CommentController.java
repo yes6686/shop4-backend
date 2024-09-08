@@ -55,5 +55,13 @@ public class CommentController {
         return new ResponseEntity<>(isLike, HttpStatus.CREATED);
     }
 
+    @GetMapping("/like/{commentId}/{memberId}")
+    public ResponseEntity<Integer> getLike(
+            @PathVariable Long commentId,
+            @PathVariable Long memberId
+    ){
+        int isLike = commentService.getLike(commentId, memberId);
+        return new ResponseEntity<>(isLike, HttpStatus.CREATED);
+    }
 
 }
