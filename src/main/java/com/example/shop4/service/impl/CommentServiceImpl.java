@@ -80,4 +80,18 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return isLike;
     }
+
+    @Override
+    public int getLike(Long commentId, Long memberId) {
+        int isLike = 0;
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                ()->new ResourceNotFoundException("Member not found id : "+memberId));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment not found id : "+commentId));
+
+        if(comment.getLikedMembers().contains(member)){ // 좋아요가 눌러져 있으면
+            isLike = 1;
+        }
+        return isLike;
+    }
 }
