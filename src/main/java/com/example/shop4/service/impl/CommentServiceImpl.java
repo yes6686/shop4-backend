@@ -13,7 +13,9 @@ import com.example.shop4.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,9 +54,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Long commentId) {
+
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 ()->new ResourceNotFoundException("Comment not found id : "+commentId)
         );
+        Set<Member> members = comment.getLikedMembers();
+        Iterator<Member> iterator = members.iterator();
+        while (iterator.hasNext()) {
+            Member member = iterator.next();
+            member.getLikedComments().remove(comment);
+            // 멤버의 변경 사항을 저장
+            memberRepository.save(member);
+        }
         commentRepository.delete(comment);
     }
 
