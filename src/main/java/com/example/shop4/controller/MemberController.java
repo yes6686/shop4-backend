@@ -1,7 +1,6 @@
 package com.example.shop4.controller;
 
 import com.example.shop4.dto.MemberDto;
-import com.example.shop4.entity.Member;
 import com.example.shop4.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -18,7 +19,6 @@ import java.util.List;
 public class MemberController {
     @Autowired
     private MemberService memberService;
-
     //회원 추가
     @PostMapping
     public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
@@ -26,7 +26,6 @@ public class MemberController {
 
         return new ResponseEntity<>(created, HttpStatus.OK);
     }
-
     // 회원 조회
     @GetMapping("{id}")
     public ResponseEntity<MemberDto> getMember(@PathVariable("id") Long id) {
@@ -58,4 +57,17 @@ public class MemberController {
         return ResponseEntity.ok("Member deleted successfully..!");
     }
 
+    //로그인 요청
+    @PostMapping("login")
+    public ResponseEntity<MemberDto> loginMember(@RequestBody MemberDto dto) {
+        MemberDto findMember = memberService.loginMember(dto);
+        return new ResponseEntity<>(findMember,HttpStatus.OK);
+    }
+
+    // userId가 있는지 체크하기
+    @GetMapping("check/{userId}")
+    public ResponseEntity<Boolean> checkMember(@PathVariable("userId") String userId) {
+        boolean exists = memberService.checkUserId(userId);
+        return ResponseEntity.ok(exists);
+    }
 }

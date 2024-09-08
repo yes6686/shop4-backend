@@ -1,6 +1,7 @@
 package com.example.shop4.entity;
 
 import com.example.shop4.dto.MemberDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -18,7 +21,7 @@ import java.time.LocalDate;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column
     private String name;
     @Column
@@ -39,6 +42,15 @@ public class Member {
     private String userPw;
     @Column
     private Long cash;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="member_liked_comments",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id"))
+    @JsonIgnore // 무한한 순환 참조 문제를 방지
+    private Set<Comment> likedComments = new HashSet<>();
+
 
     public void patch(MemberDto dto) {
         if(dto.getName() != null) {

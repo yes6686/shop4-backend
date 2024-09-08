@@ -1,5 +1,6 @@
 package com.example.shop4.dto;
 
+import com.example.shop4.entity.Comment;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,5 @@ public class GoodsDto {
     private String description;
     private String url;
     private String category;
+   // private List<Comment> comments;
 }

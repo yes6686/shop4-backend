@@ -1,21 +1,22 @@
 package com.example.shop4.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.shop4.entity.Comment;
+import com.example.shop4.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
-    private long id;
+    private Long id;
     private String name;
     private String email;
     private String address;
@@ -26,4 +27,23 @@ public class MemberDto {
     private String userId;
     private String userPw;
     private Long cash;
+    private Set<Comment> likedComments = new HashSet<>();
+
+    public static MemberDto createMemberDto(Member member) {
+        return new MemberDto(
+                member.getId(),
+                member.getName(),
+                member.getEmail(),
+                member.getAddress(),
+                member.getPhone(),
+                member.getAge(),
+                member.getBirth(),
+                member.getGender(),
+                member.getUserId(),
+                member.getUserPw(),
+                member.getCash(),
+                member.getLikedComments()
+        );
+    }
+
 }
