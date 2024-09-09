@@ -42,6 +42,8 @@ public class Member {
     private String userPw;
     @Column
     private Long cash;
+    @Column
+    private String userImage;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -82,6 +84,9 @@ public class Member {
         }
         if(dto.getAge() != 0) {
             this.age = dto.getAge();
+        }
+        if(dto.getUserImage() != null){
+            this.userImage = dto.getUserImage();
         }
     }
 }
