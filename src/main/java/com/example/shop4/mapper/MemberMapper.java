@@ -17,7 +17,8 @@ public class MemberMapper {
                 member.getUserId(),
                 member.getUserPw(),
                 member.getCash(),
-                member.getLikedComments()
+                member.getLikedComments(),
+                member.getUserImage()
         );
     }
 
@@ -34,6 +35,7 @@ public class MemberMapper {
                 memberDto.getUserId(),
                 memberDto.getUserPw(),
                 memberDto.getCash(),
+                memberDto.getUserImage(),
                 memberDto.getLikedComments()
         );
     }

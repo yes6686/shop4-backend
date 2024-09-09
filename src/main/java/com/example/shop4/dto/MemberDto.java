@@ -28,6 +28,7 @@ public class MemberDto {
     private String userPw;
     private Long cash;
     private Set<Comment> likedComments = new HashSet<>();
+    private String userImage;
 
     public static MemberDto createMemberDto(Member member) {
         return new MemberDto(
@@ -42,7 +43,8 @@ public class MemberDto {
                 member.getUserId(),
                 member.getUserPw(),
                 member.getCash(),
-                member.getLikedComments()
+                member.getLikedComments(),
+                member.getUserImage()
         );
     }
 
