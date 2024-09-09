@@ -22,4 +22,10 @@ public interface MemberService {
     List<MemberDto> getAllRequestedFriends(Long id);
     //친구추가
     boolean addFriend(Long memberId, String friendId);
+    //친구요청 거부
+    void deleteRequestedFriend(Long memberId,String userId);
+    //친구 수락
+    void acceptFriend(Long memberId,String userId);
+    //친구 삭제
+    void deleteFriend(Long memberId,String userId);
 }

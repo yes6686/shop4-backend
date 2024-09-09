@@ -114,7 +114,17 @@ public class MemberServiceImpl implements MemberService {
                 })
                 .collect(Collectors.toList());
     }
+// 친구요청 거절
+    @Override
+    public void deleteRequestedFriend(Long memberId, String userId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+        if (member.getRequested_friends().contains(userId)) {
+            member.getRequested_friends().remove(userId); // userId 삭제
+        }
+        memberRepository.save(member);
 
+    }
 
     // 친구 요청목록 불러오기
     @Override
@@ -143,6 +153,24 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
+//친구삭제
+    @Override
+    public void deleteFriend(Long memberId, String userId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+        Member friend = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with userId: " + userId));
+
+        if (member.getFriends().contains(userId)) {
+            member.getFriends().remove(userId); // 내 친구 목록에서 상대방 제거
+        }
+
+        if (friend.getFriends().contains(member.getUserId())) {
+            friend.getFriends().remove(member.getUserId()); // 상대방의 친구 목록에서 나를 제거
+        }
+        memberRepository.save(member);
+        memberRepository.save(friend);
+    }
 
     // 친구추가 friendId가 없거나 이미 친구이면 false리턴, 아닐시 친구요청테이블에 추가
     @Override
@@ -154,21 +182,79 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+        Member friend = friendOptional.get();
+
         // 이미 친구인지 확인
         if (memberRepository.isFriend(friendId, memberId)) {
             // 이미 친구라면 false 반환
             return false;
         }
-        String requestedUserId = memberRepository.findById(memberId).get().getUserId();
-        Member friend = friendOptional.get();
-        if (!friend.getRequested_friends().contains(requestedUserId)) { // 친구 중복 요청 방지
-            friend.getRequested_friends().add(requestedUserId);
-            memberRepository.save(friend); // 친구요청 테이블에 추가
+
+        // 상대방이 이미 나에게 친구 요청을 보냈는지 확인
+        if (friend.getRequested_friends().contains(member.getUserId())) {
+            // 이미 친구 요청을 보낸 상태이므로 바로 친구로 추가
+
+            // 서로의 friends 리스트에 상대방을 추가
+            addFriendIfNotExists(member, friendId);
+            addFriendIfNotExists(friend, member.getUserId());
+
+            // 친구 요청 리스트에서 삭제
+            friend.getRequested_friends().remove(member.getUserId()); // 친구의 요청 리스트에서 나를 삭제
+            member.getRequested_friends().remove(friend.getUserId()); // 나의 요청 리스트에서 친구 삭제
+
+            memberRepository.save(friend);
+            memberRepository.save(member);
+
+            return true; // 친구로 성공적으로 추가됨
         }
 
-       return true;
+        // 친구 요청을 중복해서 보내지 않도록 확인
+        String requestedUserId = member.getUserId();
+        if (!friend.getRequested_friends().contains(requestedUserId)) {
+            friend.getRequested_friends().add(requestedUserId);
+            memberRepository.save(friend); // 친구 요청 추가
+        }
+
+        return true; // 친구 요청이 성공적으로 추가됨
     }
 
+    // 중복 친구 추가 방지를 위한 메서드
+    private void addFriendIfNotExists(Member member, String friendId) {
+        if (!member.getFriends().contains(friendId)) {
+            member.getFriends().add(friendId);
+        }
+    }
+
+    //친구요청 수락
+    @Override
+    public void acceptFriend(Long memberId, String userId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+        Member friend = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with userId: " + userId));
+
+        // 서로의 friends 리스트에 상대방 추가
+        if (!member.getFriends().contains(userId)) {
+            member.getFriends().add(userId); // 친구의 userId를 member의 친구 목록에 추가
+        }
+
+        if (!friend.getFriends().contains(member.getUserId())) {
+            friend.getFriends().add(member.getUserId()); // member의 userId를 친구의 친구 목록에 추가
+        }
+        // 요청 리스트에서 삭제
+        if (member.getRequested_friends().contains(userId)) {
+            member.getRequested_friends().remove(userId); // 수락했으면 요청에서 삭제
+        }
+        // 상대방의 요청 리스트에서도 삭제
+        if (friend.getRequested_friends().contains(member.getUserId())) {
+            friend.getRequested_friends().remove(member.getUserId()); // 요청에서 삭제
+        }
+
+        memberRepository.save(member);
+        memberRepository.save(friend);
+    }
 
 }
 
