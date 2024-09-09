@@ -109,8 +109,11 @@ public class MemberServiceImpl implements MemberService {
                             member.getUserPw(),
                             member.getCash(),
                             member.getLikedComments(),
+                            member.getRequested_friends(),
                             member.getFriends(),
-                            member.getRequested_friends());
+                            member.getUserImage());// 여기에 member.getUserImage() 추가
+
+
                 })
                 .collect(Collectors.toList());
     }
@@ -126,6 +129,7 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+
     // 친구 요청목록 불러오기
     @Override
     public List<MemberDto> getAllRequestedFriends(Long id) {
@@ -135,7 +139,8 @@ public class MemberServiceImpl implements MemberService {
                 .map(friendId -> {
                     Member member = memberRepository.findByUserId(friendId)
                             .orElseThrow(() -> new IllegalArgumentException("No user found for friendId: " + friendId));
-                    return new MemberDto( member.getId(),
+                    return new MemberDto(
+                            member.getId(),
                             member.getName(),
                             member.getEmail(),
                             member.getAddress(),
@@ -147,13 +152,17 @@ public class MemberServiceImpl implements MemberService {
                             member.getUserPw(),
                             member.getCash(),
                             member.getLikedComments(),
+                            member.getRequested_friends(),
                             member.getFriends(),
-                            member.getRequested_friends());
+                            member.getUserImage()// 여기에 member.getUserImage() 추가
+
+                    );
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // 여기서 스트림을 리스트로 변환
     }
 
-//친구삭제
+
+    //친구삭제
     @Override
     public void deleteFriend(Long memberId, String userId) {
         Member member = memberRepository.findById(memberId)
