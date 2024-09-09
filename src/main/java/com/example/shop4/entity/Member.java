@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -42,6 +43,8 @@ public class Member {
     private String userPw;
     @Column
     private Long cash;
+    @Column
+    private String userImage;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -50,6 +53,32 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "comment_id"))
     @JsonIgnore // 무한한 순환 참조 문제를 방지
     private Set<Comment> likedComments = new HashSet<>();
+
+
+
+
+    //여기부터 친구추가 관련 칼럼
+
+    //친구목록
+    @ElementCollection
+    @CollectionTable(
+            name = "user_friends_table", // 친구 목록을 저장할 테이블 이름
+            joinColumns = @JoinColumn(name = "user_id") // 주 테이블의 user_id를 참조하는 외래키
+    )
+
+    @Column(name = "friend_id") // 친구 아이디를 저장하는 컬럼
+    private List<String> friends; // 친구 목록 (친구들의 userId 리스트)
+
+    // 받은친구요청
+    @ElementCollection
+    @CollectionTable(
+            name = "requested_friends_table", // 친구 목록을 저장할 테이블 이름
+            joinColumns = @JoinColumn(name = "user_id") // 주 테이블의 user_id를 참조하는 외래키
+    )
+    @Column(name = "requested_friends_id") // 친구 아이디를 저장하는 컬럼
+    private List<String> requested_friends; // 친구 목록 (친구들의 userId 리스트)
+
+
 
 
     public void patch(MemberDto dto) {
@@ -82,6 +111,14 @@ public class Member {
         }
         if(dto.getAge() != 0) {
             this.age = dto.getAge();
+        }
+        if(dto.getRequested_friends() != null) {
+            this.requested_friends = dto.getRequested_friends();
+        }
+        if(dto.getFriends() != null) {
+            this.friends = dto.getFriends();
+        if(dto.getUserImage() != null){
+            this.userImage = dto.getUserImage();
         }
     }
 }
