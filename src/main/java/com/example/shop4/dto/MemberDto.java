@@ -31,6 +31,7 @@ public class MemberDto {
     private Set<Comment> likedComments = new HashSet<>();
     private List<String> friends;
     private List<String> requested_friends;
+    private String userImage;
 
     public static MemberDto createMemberDto(Member member) {
         return new MemberDto(
@@ -48,6 +49,7 @@ public class MemberDto {
                 member.getLikedComments(),
                 member.getFriends(),
                 member.getRequested_friends()
+                member.getUserImage()
         );
     }
 

@@ -20,6 +20,7 @@ public class MemberMapper {
                 member.getLikedComments(),
                 member.getRequested_friends(),
                 member.getFriends()
+                member.getUserImage()
         );
     }
 
@@ -39,6 +40,8 @@ public class MemberMapper {
                 memberDto.getLikedComments(),
                 memberDto.getFriends(),
                 memberDto.getRequested_friends()
+                memberDto.getUserImage(),
+                memberDto.getLikedComments()
         );
     }
 }
