@@ -70,4 +70,24 @@ public class MemberController {
         boolean exists = memberService.checkUserId(userId);
         return ResponseEntity.ok(exists);
     }
+
+    // 친구목록 조회
+    @GetMapping("friendsList/{id}")
+    public ResponseEntity<List<MemberDto>> getFriends(@PathVariable("id") Long id) {
+        List<MemberDto> friends = memberService.getAllFriends(id);
+        return ResponseEntity.ok(friends);
+    }
+    // 친구 요청 이미 친구이거나 해당 id없으면 fasle 리턴
+    @GetMapping("addFriend/{memberId}/{userId}") // 여기서  memberId는 1,2,3 이런거고 userId는 kim1234이런거임
+    public ResponseEntity<Boolean> addNewFriend(@PathVariable("memberId") Long memberId,
+                                                @PathVariable("userId") String userId) {
+        boolean addFriend = memberService.addFriend(memberId, userId); //참고 : 변수 이름과 함수이름이 같음
+        return ResponseEntity.ok(addFriend);
+    }
+    // 친구 요청 목록 조회
+    @GetMapping("RequestedFriendList/{id}")
+    public ResponseEntity<List<MemberDto>> getRequestedFriends(@PathVariable("id") Long id) {
+        List<MemberDto> friends = memberService.getAllRequestedFriends(id);
+        return ResponseEntity.ok(friends);
+    }
 }
