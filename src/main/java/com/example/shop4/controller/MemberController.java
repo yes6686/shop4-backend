@@ -70,4 +70,47 @@ public class MemberController {
         boolean exists = memberService.checkUserId(userId);
         return ResponseEntity.ok(exists);
     }
+
+    // 친구목록 조회
+    @GetMapping("friendsList/{id}")
+    public ResponseEntity<List<MemberDto>> getFriends(@PathVariable("id") Long id) {
+        List<MemberDto> friends = memberService.getAllFriends(id);
+        return ResponseEntity.ok(friends);
+    }
+    // 친구 요청 이미 친구이거나 해당 id없으면 fasle 리턴 만일 서로 요청을 보내면 친구됨
+    @GetMapping("addFriend/{memberId}/{userId}") // 여기서  memberId는 1,2,3 이런거고 userId는 kim1234이런거임
+    public ResponseEntity<Boolean> addNewFriend(@PathVariable("memberId") Long memberId,
+                                                @PathVariable("userId") String userId) {
+        boolean addFriend = memberService.addFriend(memberId, userId); //참고 : 변수 이름과 함수이름이 같음
+        return ResponseEntity.ok(addFriend);
+    }
+    // 친구 요청 목록 조회
+    @GetMapping("RequestedFriendList/{id}")
+    public ResponseEntity<List<MemberDto>> getRequestedFriends(@PathVariable("id") Long id) {
+        List<MemberDto> friends = memberService.getAllRequestedFriends(id);
+        return ResponseEntity.ok(friends);
+    }
+    //친구요청 거절
+    @DeleteMapping("rejectFriend/{memberId}/{userId}") // 친구요청을 거절하면 요청테이블에서 삭제
+    public ResponseEntity <String> rejectFriend(@PathVariable("memberId") Long memberId,
+                                                @PathVariable("userId") String userId) {
+            memberService.deleteRequestedFriend(memberId,userId);
+            return ResponseEntity.ok("Friend rejected successfully..!");
+    }
+    //친구요청 수락
+    @GetMapping("acceptFriend/{memberId}/{userId}")
+    public ResponseEntity <String> acceptFriend(@PathVariable("memberId") Long memberId,
+                                                @PathVariable("userId") String userId){
+        memberService.acceptFriend(memberId,userId);
+        return ResponseEntity.ok("Friend accepted successfully..!");
+    }
+    //친구삭제
+    @DeleteMapping("deleteFriend/{memberId}/{userId}")
+    public ResponseEntity <String> deleteFriend(@PathVariable("memberId") Long memberId,
+                                                @PathVariable("userId") String userId){
+        memberService.deleteFriend(memberId,userId);
+        return ResponseEntity.ok("Friend deleted successfully..!");
+    }
+
+
 }

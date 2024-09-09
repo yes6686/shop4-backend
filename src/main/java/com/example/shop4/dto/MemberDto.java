@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,6 +29,8 @@ public class MemberDto {
     private String userPw;
     private Long cash;
     private Set<Comment> likedComments = new HashSet<>();
+    private List<String> friends;
+    private List<String> requested_friends;
     private String userImage;
 
     public static MemberDto createMemberDto(Member member) {
@@ -44,6 +47,8 @@ public class MemberDto {
                 member.getUserPw(),
                 member.getCash(),
                 member.getLikedComments(),
+                member.getFriends(),
+                member.getRequested_friends()
                 member.getUserImage()
         );
     }
