@@ -48,7 +48,7 @@ public class MemberDto {
                 member.getCash(),
                 member.getLikedComments(),
                 member.getFriends(),
-                member.getRequested_friends()
+                member.getRequested_friends(),
                 member.getUserImage()
         );
     }

@@ -70,8 +70,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int likeOrUnlikeComment(Long commentId, Long memberId) {
-        int isLike = 1;
+    public Integer likeOrUnlikeComment(Long commentId, Long memberId) {
+        Integer isLike = 1;
         Member member = memberRepository.findById(memberId).orElseThrow(
                 ()->new ResourceNotFoundException("Member not found id : "+memberId));
         Comment comment = commentRepository.findById(commentId).orElseThrow(
@@ -93,8 +93,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int getLike(Long commentId, Long memberId) {
-        int isLike = 0;
+    public Integer getLike(Long commentId, Long memberId) {
+        Integer isLike = 0;
         Member member = memberRepository.findById(memberId).orElseThrow(
                 ()->new ResourceNotFoundException("Member not found id : "+memberId));
         Comment comment = commentRepository.findById(commentId).orElseThrow(
