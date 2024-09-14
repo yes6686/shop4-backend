@@ -21,7 +21,7 @@ public class PaymentDto {
     private BigDecimal discountPrice; // 할인 금액
     private BigDecimal deliveryFee; // 배송비
     private BigDecimal finalPrice; // 최종 결제 금액
-    private LocalDateTime createdAt; // 결제 생성일
+    private LocalDateTime paymentDate; // 결제 생성일
     private String paymentStatus; // 결제 상태
     private Orders order; // 주문 정보
 }

@@ -1,5 +1,8 @@
 package com.example.shop4.dto;
 
+import com.example.shop4.entity.Member;
+import com.example.shop4.entity.OrderStatus;
+import com.example.shop4.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +22,8 @@ public class OrdersDto {
     private String buyerName; // 구매자 이름
     private String buyerPhone; // 구매자 전화번호
     private String buyerAddress; // 구매자 주소
-    private String orderStatus; // 주문 상태
+    private OrderStatus orderStatus; // 주문 상태
     private LocalDateTime orderDate; // 주문 날짜
+    private Member member; // 회원 정보
+    private Payment payment; // 결제 정보
 }
