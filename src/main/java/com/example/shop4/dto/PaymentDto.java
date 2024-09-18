@@ -17,7 +17,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PaymentDto {
-    private Long paymentId; // 결제 ID
+    private Long id; // 결제 ID
+    private String paymentUid; // 결제 고유 번호
     private BigDecimal totalPrice; // 총 금액
     private BigDecimal discountPrice; // 할인 금액
     private BigDecimal deliveryFee; // 배송비

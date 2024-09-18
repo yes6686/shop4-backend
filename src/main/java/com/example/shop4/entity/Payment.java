@@ -17,7 +17,10 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentId; // 결제 ID
+    private Long id; // 결제 ID
+
+    @Column(name = "payment_Uid", nullable = false)
+    private String paymentUid; // 결제 고유 번호
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice; // 총 금액

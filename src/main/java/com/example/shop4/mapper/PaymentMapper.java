@@ -5,11 +5,10 @@ import com.example.shop4.entity.Payment;
 import com.example.shop4.entity.PaymentStatus;
 
 public class PaymentMapper {
-
-    // Payment Entity -> PaymentDto 변환
     public static PaymentDto mapToPaymentDto(Payment payment) {
         return new PaymentDto(
-                payment.getPaymentId(),
+                payment.getId(),
+                payment.getPaymentUid(),
                 payment.getTotalPrice(),
                 payment.getDiscountPrice(),
                 payment.getDeliveryFee(),
@@ -24,7 +23,8 @@ public class PaymentMapper {
     // PaymentDto -> Payment Entity 변환
     public static Payment mapToPayment(PaymentDto paymentDto) {
         return new Payment(
-                paymentDto.getPaymentId(),
+                paymentDto.getId(),
+                paymentDto.getPaymentUid(),
                 paymentDto.getTotalPrice(),
                 paymentDto.getDiscountPrice(),
                 paymentDto.getDeliveryFee(),

@@ -17,7 +17,10 @@ import java.time.LocalDateTime;
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId; // 주문 ID
+    private Long id; // 주문 ID
+
+    @Column(name = "order_Uid", nullable = false)
+    private String orderUid; // 주문 고유 번호
 
     @Column(name = "buyer_name", nullable = false)
     private String buyerName; // 구매자 이름

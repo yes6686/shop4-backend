@@ -4,6 +4,7 @@ import com.example.shop4.entity.Member;
 import com.example.shop4.entity.OrderStatus;
 import com.example.shop4.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrdersDto {
-    private Long orderId; // 주문 ID
+    private Long id; // 주문 ID
+    private String orderUid; // 주문 고유 번호
     private String buyerName; // 구매자 이름
     private String buyerPhone; // 구매자 전화번호
     private String buyerAddress; // 구매자 주소
