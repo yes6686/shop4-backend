@@ -1,6 +1,7 @@
 package com.example.shop4.dto;
 
 import com.example.shop4.entity.Orders;
+import com.example.shop4.entity.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,5 +24,6 @@ public class PaymentDto {
     private BigDecimal finalPrice; // 최종 결제 금액
     private LocalDateTime paymentDate; // 결제 생성일
     private String paymentStatus; // 결제 상태
+    private PaymentMethod paymentMethod; // 결제 방식
     private Orders order; // 주문 정보
 }

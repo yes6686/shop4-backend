@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.beans.beancontext.BeanContextMembershipEvent;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,6 +23,8 @@ public class OrdersDto {
     private String buyerName; // 구매자 이름
     private String buyerPhone; // 구매자 전화번호
     private String buyerAddress; // 구매자 주소
+    private String buyerPostCode; // 구매자 우편번호
+    private BigDecimal orderPrice; // 주문 가격
     private OrderStatus orderStatus; // 주문 상태
     private LocalDateTime orderDate; // 주문 날짜
     private Member member; // 회원 정보

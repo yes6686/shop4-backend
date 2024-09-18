@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +27,12 @@ public class Orders {
 
     @Column(name = "buyer_address", nullable = false)
     private String buyerAddress; // 구매자 주소
+
+    @Column(name = "buyer_post_code", length = 100)
+    private String buyerPostCode; // 구매자 우편번호
+
+    @Column(name = "order_price", nullable = false)
+    private BigDecimal orderPrice; // 주문 가격
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)

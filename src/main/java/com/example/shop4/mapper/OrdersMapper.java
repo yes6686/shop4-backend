@@ -10,6 +10,8 @@ public class OrdersMapper {
                 orders.getBuyerName(),
                 orders.getBuyerPhone(),
                 orders.getBuyerAddress(),
+                orders.getBuyerPostCode(),
+                orders.getOrderPrice(),
                 orders.getOrderStatus(), // Enum directly
                 orders.getOrderDate(),
                 orders.getMember(), // Include member if necessary
@@ -23,6 +25,8 @@ public class OrdersMapper {
                 ordersDto.getBuyerName(),
                 ordersDto.getBuyerPhone(),
                 ordersDto.getBuyerAddress(),
+                ordersDto.getBuyerPostCode(),
+                ordersDto.getOrderPrice(),
                 ordersDto.getOrderStatus(), // Directly use OrderStatus Enum
                 ordersDto.getOrderDate(),
                 ordersDto.getMember(), // Include member if necessary
