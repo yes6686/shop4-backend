@@ -12,7 +12,7 @@ public interface CommentService {
     void deleteComment(Long commentId);
 
     // 좋아요 중복 방지
-    int likeOrUnlikeComment(Long commentId, Long memberId);
-    int getLike(Long commentId, Long memberId);
+    Integer likeOrUnlikeComment(Long commentId, Long memberId);
+    Integer getLike(Long commentId, Long memberId);
 
 }

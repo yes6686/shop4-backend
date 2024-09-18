@@ -50,7 +50,7 @@ public class CommentController {
     ){
         System.out.println("commentId = " + commentId);
         System.out.println("memberId = " + memberId);
-        int isLike = commentService.likeOrUnlikeComment(commentId, memberId);
+        Integer isLike = commentService.likeOrUnlikeComment(commentId, memberId);
 
         return new ResponseEntity<>(isLike, HttpStatus.CREATED);
     }
@@ -60,7 +60,7 @@ public class CommentController {
             @PathVariable Long commentId,
             @PathVariable Long memberId
     ){
-        int isLike = commentService.getLike(commentId, memberId);
+        Integer isLike = commentService.getLike(commentId, memberId);
         return new ResponseEntity<>(isLike, HttpStatus.CREATED);
     }
 
