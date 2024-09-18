@@ -12,4 +12,5 @@ public interface PaymentService {
     List<PaymentDto> getAllPayments();
     PaymentDto updatePayment(Long paymentId, PaymentDto updatedPaymentDto);
     void deletePayment(Long paymentId);
+    List<PaymentDto> getPaymentsByMemberId(Long memberId); // 회원 ID로 결제 내역 조회
 }

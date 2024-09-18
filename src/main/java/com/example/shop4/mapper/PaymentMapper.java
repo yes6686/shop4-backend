@@ -14,7 +14,7 @@ public class PaymentMapper {
                 payment.getDeliveryFee(),
                 payment.getFinalPrice(),
                 payment.getPaymentDate(),
-                payment.getPaymentStatus().name(), // Enum to String 변환
+                payment.getPaymentStatus(), // Enum to String 변환
                 payment.getPaymentMethod(),        // PaymentMethod 추가
                 payment.getOrder()
         );
@@ -30,8 +30,8 @@ public class PaymentMapper {
                 paymentDto.getDeliveryFee(),
                 paymentDto.getFinalPrice(),
                 paymentDto.getPaymentDate(),
-                PaymentStatus.valueOf(paymentDto.getPaymentStatus()), // String을 Enum으로 변환
-                paymentDto.getPaymentMethod(),                        // PaymentMethod 추가
+                paymentDto.getPaymentStatus(),
+                paymentDto.getPaymentMethod(),
                 paymentDto.getOrder()
         );
     }
