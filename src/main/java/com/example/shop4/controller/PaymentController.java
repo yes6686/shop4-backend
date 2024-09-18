@@ -1,34 +1,53 @@
 package com.example.shop4.controller;
 
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.shop4.dto.PaymentDto;
+import com.example.shop4.service.PaymentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+@RequestMapping("/api/payments")
+@RequiredArgsConstructor
 public class PaymentController {
-    @Value("${iamport.key}")
-    private String restApiKey;
-    @Value("${iamport.secret}")
-    private String restApiSecret;
 
-    private IamportClient iamportClient;
+    private final PaymentService paymentService;
 
-    @PostConstruct // 의존성 주입이 이루어진 후 초기화를 수행하는 메서드
-    public void init(){
-        this.iamportClient = new IamportClient(restApiKey,restApiSecret);
+    // 결제 생성
+    @PostMapping
+    public PaymentDto createPayment(@RequestBody PaymentDto paymentDto) {
+        return paymentService.createPayment(paymentDto);
     }
-    @PostMapping("/verifyIamport/{imp_uid}")
-    public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid) throws IamportResponseException, IOException {
-        return iamportClient.paymentByImpUid(imp_uid);
+
+    // 결제 조회 (ID로)
+    @GetMapping("/{paymentId}")
+    public PaymentDto getPaymentById(@PathVariable Long paymentId) {
+        return paymentService.getPaymentById(paymentId)
+                .orElseThrow(() -> new IllegalArgumentException("Payment not found"));
+    }
+
+    // 모든 결제 조회
+    @GetMapping
+    public List<PaymentDto> getAllPayments() {
+        return paymentService.getAllPayments();
+    }
+
+    // 결제 수정 (ID로)
+    @PutMapping("/{paymentId}")
+    public PaymentDto updatePayment(@PathVariable Long paymentId, @RequestBody PaymentDto paymentDto) {
+        return paymentService.updatePayment(paymentId, paymentDto);
+    }
+
+    // 결제 삭제 (ID로)
+    @DeleteMapping("/{paymentId}")
+    public void deletePayment(@PathVariable Long paymentId) {
+        paymentService.deletePayment(paymentId);
+    }
+
+    // 회원 ID로 결제 내역 조회
+    @GetMapping("/member/{memberId}")
+    public List<PaymentDto> getPaymentsByMemberId(@PathVariable Long memberId) {
+        return paymentService.getPaymentsByMemberId(memberId);
     }
 }
