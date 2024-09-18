@@ -17,19 +17,22 @@ import java.time.LocalDateTime;
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId; // 주문 ID
+    private Long id; // 주문 ID
+
+    @Column(name = "order_Uid", nullable = false)
+    private String orderUid; // 주문 고유 번호
 
     @Column(name = "buyer_name", nullable = false)
-    private String buyerName; // 구매자 이름
+    private String buyerName; // 이름
 
     @Column(name = "buyer_phone", nullable = false)
-    private String buyerPhone; // 구매자 전화번호
+    private String buyerPhone; // 전화번호
 
     @Column(name = "buyer_address", nullable = false)
-    private String buyerAddress; // 구매자 주소
+    private String buyerAddress; // 주소
 
     @Column(name = "buyer_post_code", length = 100)
-    private String buyerPostCode; // 구매자 우편번호
+    private String buyerPostCode; // 우편번호
 
     @Column(name = "order_price", nullable = false)
     private BigDecimal orderPrice; // 주문 가격

@@ -6,7 +6,8 @@ import com.example.shop4.entity.Orders;
 public class OrdersMapper {
     public static OrdersDto mapToOrdersDto(Orders orders) {
         return new OrdersDto(
-                orders.getOrderId(),
+                orders.getId(),
+                orders.getOrderUid(),
                 orders.getBuyerName(),
                 orders.getBuyerPhone(),
                 orders.getBuyerAddress(),
@@ -21,7 +22,8 @@ public class OrdersMapper {
 
     public static Orders mapToOrders(OrdersDto ordersDto) {
         return new Orders(
-                ordersDto.getOrderId(),
+                ordersDto.getId(),
+                ordersDto.getOrderUid(),
                 ordersDto.getBuyerName(),
                 ordersDto.getBuyerPhone(),
                 ordersDto.getBuyerAddress(),
