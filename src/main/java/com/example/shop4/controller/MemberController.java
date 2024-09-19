@@ -3,10 +3,13 @@ package com.example.shop4.controller;
 import com.example.shop4.dto.MemberDto;
 import com.example.shop4.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.Map;
 @CrossOrigin("*")
 @RequestMapping("/api/members")
 public class MemberController {
+    private final Tika tika = new Tika(); // Apache Tika 인스턴스 생성
+
     @Autowired
     private MemberService memberService;
     //회원 추가
@@ -111,6 +116,61 @@ public class MemberController {
         memberService.deleteFriend(memberId,userId);
         return ResponseEntity.ok("Friend deleted successfully..!");
     }
+
+    //프로필사진 조회
+    @GetMapping("getProfileImage/{memberId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable("memberId") Long memberId) {
+        byte[] imageData = memberService.getProfileImage(memberId);
+        if (imageData == null ||imageData.length == 0) {
+            return ResponseEntity.ok().body(null);
+        }
+
+        // Apache Tika를 사용해 MIME 타입 감지
+        String mimeType = tika.detect(imageData);
+
+        // MIME 타입에 맞춰 MediaType 설정
+        MediaType mediaType;
+        switch (mimeType) {
+            case "image/jpeg":
+                mediaType = MediaType.IMAGE_JPEG;
+                break;
+            case "image/png":
+                mediaType = MediaType.IMAGE_PNG;
+                break;
+            case "image/gif":
+                mediaType = MediaType.IMAGE_GIF;
+                break;
+            default:
+                mediaType = MediaType.APPLICATION_OCTET_STREAM; // 기본값
+        }
+        return ResponseEntity.ok()
+                .contentType(mediaType) // MIME 타입 설정
+                .body(imageData);
+    }
+    //프로필 사진 수정
+    @PatchMapping("updateProfileImage/{memberId}")
+    public ResponseEntity<String> updateProfileImage(@PathVariable("memberId") Long memberId,
+                                                     @RequestParam("file") MultipartFile file) {
+        try {
+
+
+            byte[] imageData = file.getBytes();
+            memberService.updateProfileImage(memberId, imageData);
+            return ResponseEntity.ok("이미지 업데이트");
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @DeleteMapping("deleteProfileImage/{memberId}")
+    public ResponseEntity<String> deleteProfileImage(@PathVariable("memberId") Long memberId) {
+        memberService.deleteProfileImage(memberId);
+        return ResponseEntity.ok("프로필 이미지 삭제 성공");
+    }
+
+
+
+
 
 
 }
