@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Member {
+public class  Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,8 +43,9 @@ public class Member {
     private String userPw;
     @Column
     private Long cash;
-    @Column
-    private String userImage;
+    @Lob
+    @Column(name = "userImage", columnDefinition = "MEDIUMBLOB")
+    private byte[] userImage; // 이미지 데이터를 직접 저장
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

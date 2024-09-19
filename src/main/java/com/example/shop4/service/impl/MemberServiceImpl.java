@@ -265,4 +265,30 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(friend);
     }
 
+    //프로필 사진 조회
+    @Override
+    public byte[] getProfileImage(Long memberId) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        return memberProfile.getUserImage() != null ? memberProfile.getUserImage() : new byte[0];
+
+    }
+    //프로필 업데이트
+    @Override
+    public void updateProfileImage(Long memberId, byte[] profileImage) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        memberProfile.setUserImage(profileImage);
+        memberRepository.save(memberProfile);
+    }
+
+    @Override
+    public void deleteProfileImage(Long memberId) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        memberProfile.setUserImage(null);
+        memberRepository.save(memberProfile);
+    }
+
+
 }
