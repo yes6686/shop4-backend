@@ -31,7 +31,7 @@ public class MemberDto {
     private Set<Comment> likedComments = new HashSet<>();
     private List<String> friends;
     private List<String> requested_friends;
-    private String userImage;
+    private byte[] userImage;
 
     public static MemberDto createMemberDto(Member member) {
         return new MemberDto(
