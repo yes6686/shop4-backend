@@ -26,7 +26,7 @@ public class MemberDto {
     private LocalDate birth;
     private String gender;
     private String userId;
-    private String userPw;
+    private String userPw;  
     private Long cash;
     private Set<Comment> likedComments = new HashSet<>();
     private List<String> friends;

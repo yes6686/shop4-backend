@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +26,50 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
-    //회원 추가
+//    //회원 추가
+//    @PostMapping
+//    public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
+//        MemberDto created = memberService.createMember(memberDto);
+//
+//        return new ResponseEntity<>(created, HttpStatus.OK);
+//    }
     @PostMapping
-    public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
-        MemberDto created = memberService.createMember(memberDto);
+    public ResponseEntity<MemberDto> createMember(
+            @RequestParam("userId") String userId,
+            @RequestParam("userPw") String userPw,
+            @RequestParam("name") String name,
+            @RequestParam("phone") String phone,
+            @RequestParam("email") String email,
+            @RequestParam("birth") LocalDate birth,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        // MemberDto를 생성 (이 부분은 DTO 생성 로직에 따라 달라질 수 있음)
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUserId(userId);
+        memberDto.setUserPw(userPw);
+        memberDto.setName(name);
+        memberDto.setEmail(email);
+        memberDto.setPhone(phone);
+        memberDto.setBirth(birth);
 
-        return new ResponseEntity<>(created, HttpStatus.OK);
+        // 파일 처리 (file은 필요에 따라 설정)
+        if (file != null) {
+            try {
+                byte[] imageBytes = file.getBytes();
+                memberDto.setUserImage(imageBytes);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        // 서비스 호출하여 회원 생성
+        MemberDto createdMember = memberService.createMember(memberDto);
+
+        // 생성된 회원 정보 반환
+        return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
     }
+
     // 회원 조회
     @GetMapping("{id}")
     public ResponseEntity<MemberDto> getMember(@PathVariable("id") Long id) {
