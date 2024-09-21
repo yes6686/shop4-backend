@@ -4,6 +4,7 @@ import com.example.shop4.dto.CartDto;
 import com.example.shop4.entity.Cart;
 import com.example.shop4.entity.Goods;
 import com.example.shop4.entity.Member;
+import com.example.shop4.entity.OrderDetail;
 import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.mapper.CartMapper;
 import com.example.shop4.repository.CartRepository;
@@ -12,6 +13,7 @@ import com.example.shop4.repository.MemberRepository;
 import com.example.shop4.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,8 +88,28 @@ public class CartServiceImpl implements CartService {
                 ()->new ResourceNotFoundException("Cart not found id : "+cartId)
         );
         cartRepository.delete(cart);
-
     }
+    @Override
+    public void removeOrderedItemsFromCart(List<OrderDetail> orderDetails, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with ID: " + memberId));
 
+        for (OrderDetail orderDetail : orderDetails) {
+            Goods orderedGoods = orderDetail.getGoods(); // 주문된 상품 가져오기
+            Cart cart = cartRepository.findByMemberAndGoods(member, orderedGoods); // 회원의 장바구니에서 해당 상품 찾기
+
+            if (cart != null) {
+                cartRepository.delete(cart); // 장바구니에서 해당 상품 삭제
+            }
+        }
+    }
+    @Override
+    @Transactional
+    public void deleteCartsByOrderDetails(List<Long> goodsIds) {
+        for (Long goodsId : goodsIds) {
+            // 해당 goodsId를 가진 장바구니 항목 삭제
+            cartRepository.deleteByGoodsId(goodsId);
+        }
+    }
 
 }
