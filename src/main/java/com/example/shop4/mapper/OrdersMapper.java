@@ -16,7 +16,8 @@ public class OrdersMapper {
                 orders.getOrderStatus(), // Enum directly
                 orders.getOrderDate(),
                 orders.getMember(), // Include member if necessary
-                orders.getPayment() // Include payment if necessary
+                orders.getPayment(), // Include payment if necessary
+                orders.getOrderDetails()
         );
     }
 
@@ -32,7 +33,8 @@ public class OrdersMapper {
                 ordersDto.getOrderStatus(), // Directly use OrderStatus Enum
                 ordersDto.getOrderDate(),
                 ordersDto.getMember(), // Include member if necessary
-                ordersDto.getPayment() // Include payment if necessary
+                ordersDto.getPayment(), // Include payment if necessary
+                ordersDto.getOrderDetails()
         );
     }
 }

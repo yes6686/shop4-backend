@@ -53,4 +53,15 @@ public class CartController {
         cartService.deleteCart(cartId);
         return ResponseEntity.ok("Carts deleted successfully..!");
     }
+    @PostMapping("/clear-after-payment")
+    public ResponseEntity<String> clearCartAfterPayment(@RequestBody List<Long> goodsIds) {
+        try {
+            cartService.deleteCartsByOrderDetails(goodsIds);
+            return ResponseEntity.ok("장바구니에서 상품이 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("장바구니 삭제 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
 }
