@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 public class OrdersServiceImpl implements OrderService {
 
     private final OrdersRepository ordersRepository;
-    private final CartRepository cartRepository;
-    private final OrderDetailRepository orderDetailRepository;
 
     @Override
     public OrdersDto createOrder(OrdersDto ordersDto) {
