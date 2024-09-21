@@ -20,28 +20,11 @@ import java.util.stream.Collectors;
 public class OrdersServiceImpl implements OrderService {
 
     private final OrdersRepository ordersRepository;
-    private final CartRepository cartRepository;
-    private final OrderDetailRepository orderDetailRepository;
 
     @Override
     public OrdersDto createOrder(OrdersDto ordersDto) {
         Orders orders = OrdersMapper.mapToOrders(ordersDto);
         Orders savedOrder = ordersRepository.save(orders); // 주문 저장
-        // 주문 완료 후 장바구니에서 해당 상품들 삭제
-        // 주문에 해당하는 주문 상세 내역(OrderDetail) 조회
-        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orders.getId());
-        Member member = orders.getMember(); // 주문한 회원 정보 가져오기
-
-        if (member == null) {
-            throw new ResourceNotFoundException("Member not found for the order");
-        }
-        for (OrderDetail orderDetail : orderDetails) {
-            Goods orderedGoods = orderDetail.getGoods(); // 주문된 상품 가져오기
-            Cart cart = cartRepository.findByMemberAndGoods(member, orderedGoods); // 회원의 장바구니에서 해당 상품 찾기
-            if (cart != null) {
-                cartRepository.delete(cart); // 장바구니에서 해당 상품 삭제
-            }
-        }
         return OrdersMapper.mapToOrdersDto(savedOrder);
     }
 
