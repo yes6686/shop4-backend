@@ -1,6 +1,7 @@
 package com.example.shop4.dto;
 
 import com.example.shop4.entity.Member;
+import com.example.shop4.entity.OrderDetail;
 import com.example.shop4.entity.OrderStatus;
 import com.example.shop4.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import java.beans.beancontext.BeanContextMembershipEvent;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,4 +33,5 @@ public class OrdersDto {
     private LocalDateTime orderDate; // 주문 날짜
     private Member member; // 회원 정보
     private Payment payment; // 결제 정보
+    private List<OrderDetail> orderDetails;
 }

@@ -13,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/order-details")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OrdersDetailController {
 
     private final OrderDetailService orderDetailService;
@@ -21,6 +22,11 @@ public class OrdersDetailController {
     @PostMapping
     public ResponseEntity<OrderDetailDto> createOrderDetail(@RequestBody OrderDetailDto orderDetailDto) {
         OrderDetailDto createdOrderDetail = orderDetailService.createOrderDetail(orderDetailDto);
+        System.out.println("createdOrderDetail1 = " + createdOrderDetail.getOrderCount());
+        System.out.println("createdOrderDetail2 = " + createdOrderDetail.getGoods().getId());
+        System.out.println("createdOrderDetail3 = " + createdOrderDetail.getGoods().getUrl());
+        System.out.println("createdOrderDetail4 = " + createdOrderDetail.getOrder().getId());
+        System.out.println("createdOrderDetail5 = " + createdOrderDetail.getOrder().getOrderDetails());
         return new ResponseEntity<>(createdOrderDetail, HttpStatus.CREATED);
     }
 

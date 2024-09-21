@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -17,6 +18,7 @@ public class PaymentController {
     // 결제 생성
     @PostMapping
     public PaymentDto createPayment(@RequestBody PaymentDto paymentDto) {
+        System.out.println("paymentDto = " + paymentDto);
         return paymentService.createPayment(paymentDto);
     }
 

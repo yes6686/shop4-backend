@@ -1,6 +1,10 @@
 package com.example.shop4.controller;
 
+import com.example.shop4.dto.MemberDto;
 import com.example.shop4.dto.OrdersDto;
+import com.example.shop4.entity.Member;
+import com.example.shop4.mapper.MemberMapper;
+import com.example.shop4.service.MemberService;
 import com.example.shop4.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,13 +17,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OrdersController {
 
     private final OrderService orderService;
+    private final MemberService memberService;
 
     // 주문 생성
     @PostMapping
     public ResponseEntity<OrdersDto> createOrder(@RequestBody OrdersDto ordersDto) {
+        // memberId로 Member 찾기
+        MemberDto memberDto = memberService.getMemberById(ordersDto.getMember().getId());
+        ordersDto.setMember(MemberMapper.mapToMember(memberDto));
         OrdersDto createdOrder = orderService.createOrder(ordersDto);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }

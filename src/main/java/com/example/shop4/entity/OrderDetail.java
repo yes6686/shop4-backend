@@ -11,7 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_detail")
+@Table(name = "order_detail", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"order_id", "goods_id"}) // 복합 고유 제약 조건 추가
+})
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
