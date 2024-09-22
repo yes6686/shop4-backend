@@ -26,12 +26,6 @@ public class Goods {
     private String url;
     private String category;
 
-    // FetchType.EAGER는 연관된 엔티티를 즉시 로딩하는 전략.
-    // CascadeType.REMOVE가 지정되어 있어, 부모 엔티티가 삭제될 때 관련된 모든 자식 엔티티도 함께 삭제된다.
-//    @OneToMany(mappedBy = "goods", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-//    @OrderBy("id asc") // 댓글 정렬
-//    private List<Comment> comments;
-
     public void patch(GoodsDto dto){
         if(dto.getName() != null){
             this.name = dto.getName();
