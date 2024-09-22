@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -39,6 +40,13 @@ public class GoodsController {
     public ResponseEntity<GoodsDto> getGoodsById(@PathVariable("id") Long goodsId){
         GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
         return ResponseEntity.ok(goodsDto);
+    }
+
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<GoodsDto>> getGoodsdByCategory(@PathVariable("category") String category) {
+        List<GoodsDto> goods = goodsService.getGoodsByCategory(category);
+
+        return ResponseEntity.ok(goods);
     }
 
     @DeleteMapping("{id}")

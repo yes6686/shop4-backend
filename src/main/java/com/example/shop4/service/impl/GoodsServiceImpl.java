@@ -55,6 +55,14 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public List<GoodsDto> getGoodsByCategory(String category) {
+        List<Goods> goods = goodsRepository.findAll();
+
+        return goods.stream().filter(good -> good.getCategory().equals(category))
+                .map(good -> GoodsMapper.mapToGoodsDto(good)).collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteGoods(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId).orElseThrow(
                 ()-> new ResourceNotFoundException("Goods is not exists with given id : "+goodsId)
