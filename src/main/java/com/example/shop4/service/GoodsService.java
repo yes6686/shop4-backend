@@ -10,5 +10,6 @@ public interface GoodsService {
     List<GoodsDto> getAllGoods();
     GoodsDto getGoodsById(Long Goods);
     GoodsDto updateGoods(Long goodsId, GoodsDto updatedGood);
+    List<GoodsDto> getGoodsByCategory(String category);
     void deleteGoods(Long goodsId);
 }
