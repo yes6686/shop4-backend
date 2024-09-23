@@ -29,7 +29,9 @@ public class CouponsServiceImpl implements CouponsService {
     @Override
     public List<CouponsDto> getAllCoupons() {
         List<Coupons> coupons = couponsRepository.findAll();
-        return coupons.stream().map((coupon)->CouponsMapper.mapToCouponsDto(coupon))
+        return coupons.stream()
+                .filter(coupon -> coupon.getCount() > 0) // count가 0보다 큰 쿠폰만 필터링
+                .map(CouponsMapper::mapToCouponsDto) // CouponsDto로 변환
                 .collect(Collectors.toList());
     }
 

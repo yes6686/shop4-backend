@@ -1,12 +1,10 @@
     package com.example.shop4.service.impl;
 
-    import com.example.shop4.dto.CouponsDto;
     import com.example.shop4.dto.MemberCouponDto;
     import com.example.shop4.entity.Coupons;
     import com.example.shop4.entity.Member;
     import com.example.shop4.entity.MemberCoupon;
     import com.example.shop4.exception.ResourceNotFoundException;
-    import com.example.shop4.mapper.CouponsMapper;
     import com.example.shop4.mapper.MemberCouponMapper;
     import com.example.shop4.repository.CouponsRepository;
     import com.example.shop4.repository.MemberCouponRepository;
