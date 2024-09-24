@@ -2,6 +2,7 @@ package com.example.shop4.dto;
 
 import com.example.shop4.entity.Comment;
 import com.example.shop4.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -20,7 +20,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrdersDto {
     private Long id; // 주문 ID
     private String orderUid; // 주문 고유 번호
