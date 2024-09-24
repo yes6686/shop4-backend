@@ -28,6 +28,5 @@ public class PaymentDto {
     private LocalDateTime paymentDate; // 결제 생성일
     private PaymentStatus paymentStatus; // 결제 상태
     private PaymentMethod paymentMethod; // 결제 방식
-    @JsonIgnore
-    private Orders order; // 주문 정보
+    private Long orderId; // 주문 ID 추가
 }
