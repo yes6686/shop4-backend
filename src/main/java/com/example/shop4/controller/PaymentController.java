@@ -2,7 +2,11 @@ package com.example.shop4.controller;
 
 import com.example.shop4.dto.PaymentDto;
 import com.example.shop4.service.PaymentService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,39 +21,44 @@ public class PaymentController {
 
     // 결제 생성
     @PostMapping
-    public PaymentDto createPayment(@RequestBody PaymentDto paymentDto) {
+    public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentDto paymentDto) {
         System.out.println("paymentDto = " + paymentDto);
-        return paymentService.createPayment(paymentDto);
+        PaymentDto createdPayment = paymentService.createPayment(paymentDto);
+        return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
     }
 
     // 결제 조회 (ID로)
     @GetMapping("/{paymentId}")
-    public PaymentDto getPaymentById(@PathVariable Long paymentId) {
-        return paymentService.getPaymentById(paymentId)
-                .orElseThrow(() -> new IllegalArgumentException("Payment not found"));
+    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable Long paymentId) {
+        PaymentDto paymentDto = paymentService.getPaymentById(paymentId);
+        return ResponseEntity.ok(paymentDto);
     }
 
     // 모든 결제 조회
     @GetMapping
-    public List<PaymentDto> getAllPayments() {
-        return paymentService.getAllPayments();
+    public ResponseEntity<List<PaymentDto>> getAllPayments() {
+        List<PaymentDto> payments = paymentService.getAllPayments();
+        return ResponseEntity.ok(payments);
     }
 
     // 결제 수정 (ID로)
     @PutMapping("/{paymentId}")
-    public PaymentDto updatePayment(@PathVariable Long paymentId, @RequestBody PaymentDto paymentDto) {
-        return paymentService.updatePayment(paymentId, paymentDto);
+    public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long paymentId, @RequestBody PaymentDto paymentDto) {
+        PaymentDto updatedPayment = paymentService.updatePayment(paymentId, paymentDto);
+        return ResponseEntity.ok(updatedPayment);
     }
 
     // 결제 삭제 (ID로)
     @DeleteMapping("/{paymentId}")
-    public void deletePayment(@PathVariable Long paymentId) {
+    public ResponseEntity<String> deletePayment(@PathVariable Long paymentId) {
         paymentService.deletePayment(paymentId);
+        return ResponseEntity.ok("Payment deleted successfully.");
     }
 
     // 회원 ID로 결제 내역 조회
     @GetMapping("/member/{memberId}")
-    public List<PaymentDto> getPaymentsByMemberId(@PathVariable Long memberId) {
-        return paymentService.getPaymentsByMemberId(memberId);
+    public ResponseEntity<List<PaymentDto>> getPaymentsByMemberId(@PathVariable Long memberId) {
+        List<PaymentDto> payments = paymentService.getPaymentsByMemberId(memberId);
+        return ResponseEntity.ok(payments);
     }
 }
