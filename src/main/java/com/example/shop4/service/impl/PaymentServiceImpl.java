@@ -26,7 +26,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto createPayment(PaymentDto paymentDto) {
-        Payment payment = PaymentMapper.mapToPayment(paymentDto);
+        // 먼저 Order를 조회하여 존재하는지 확인
+        Orders order = ordersRepository.findById(paymentDto.getOrderId())
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + paymentDto.getOrderId()));
+        Payment payment = PaymentMapper.mapToPayment(paymentDto, order);
+        payment.setOrder(order); // Order를 Payment에 설정
         Payment savedPayment = paymentRepository.save(payment); // 결제 저장
         return PaymentMapper.mapToPaymentDto(savedPayment);
     }
