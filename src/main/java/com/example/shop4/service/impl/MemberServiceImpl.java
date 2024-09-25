@@ -202,7 +202,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 상대방이 이미 나에게 친구 요청을 보냈는지 확인
-        if (friend.getRequested_friends().contains(member.getUserId())) {
+        if (member.getRequested_friends().contains(friend.getUserId())) {
             // 이미 친구 요청을 보낸 상태이므로 바로 친구로 추가
 
             // 서로의 friends 리스트에 상대방을 추가
@@ -224,6 +224,7 @@ public class MemberServiceImpl implements MemberService {
         if (!friend.getRequested_friends().contains(requestedUserId)) {
             friend.getRequested_friends().add(requestedUserId);
             memberRepository.save(friend); // 친구 요청 추가
+            return true;
         }
 
         return true; // 친구 요청이 성공적으로 추가됨
