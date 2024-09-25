@@ -17,4 +17,6 @@ public interface CartService {
     // 주문 후 주문한 상품 장바구니 비우기
     public void removeOrderedItemsFromCart(List<OrderDetail> orderDetails, Long memberId);
     void deleteCartsByOrderDetails(List<Long> goodsIds);
+    //memberId와 goodsId로 장바구니 목록 찾기
+    CartDto getCartByMemberIdAndGoodsId(Long memberId, Long goodsId);
 }
