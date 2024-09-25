@@ -1,6 +1,7 @@
 package com.example.shop4.controller;
 
 import com.example.shop4.dto.CommentDto;
+import com.example.shop4.service.CommentPermissionService;
 import com.example.shop4.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/comment")
 public class CommentController {
-    private CommentService commentService;
+    private final CommentService commentService;
+    private final CommentPermissionService commentPermissionService;
 
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto){
@@ -62,6 +64,15 @@ public class CommentController {
     ){
         Integer isLike = commentService.getLike(commentId, memberId);
         return new ResponseEntity<>(isLike, HttpStatus.CREATED);
+    }
+
+    // 댓글 작성 권한을 확인하는 API
+    @GetMapping("/can-comment/{memberId}/{goodsId}")
+    public ResponseEntity<Boolean> canComment(@PathVariable Long memberId,
+                                              @PathVariable Long goodsId){
+        boolean canComment = commentPermissionService.canComment(memberId, goodsId);
+
+        return ResponseEntity.ok(canComment);
     }
 
 }
