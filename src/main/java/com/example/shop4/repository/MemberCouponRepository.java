@@ -9,6 +9,5 @@ import java.util.List;
 
 public interface MemberCouponRepository extends JpaRepository<MemberCoupon, Long> {
     // userId 필드로 MemberCoupon 찾기
-    @Query("SELECT mc FROM MemberCoupon mc WHERE mc.member.id = :userId")
-    List<MemberCoupon> findByUserId(@Param("userId") Long userId);
+    List<MemberCoupon> findByMemberId(Long memberId);
 }
