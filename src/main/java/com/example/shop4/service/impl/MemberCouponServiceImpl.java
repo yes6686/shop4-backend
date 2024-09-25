@@ -103,7 +103,7 @@
         @Override
         public List<MemberCouponDto> getUserCoupons(Long userId) {
             // 유저가 쿠폰이 있는지 확인
-            List<MemberCoupon> memberCoupons = memberCouponRepository.findByUserId(userId);
+            List<MemberCoupon> memberCoupons = memberCouponRepository.findByMemberId(userId);
 
             // 사용되지 않은 쿠폰 필터링 후 MemberCouponDto로 변환하여 반환
             return memberCoupons.stream()
