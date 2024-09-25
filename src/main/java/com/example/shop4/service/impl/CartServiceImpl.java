@@ -112,4 +112,13 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Override
+    public CartDto getCartByMemberIdAndGoodsId(Long memberId, Long goodsId) {
+        Cart cart = cartRepository.findByMemberIdAndGoodsId(memberId, goodsId); //해당 값이 없으면 null을 반환함
+        if (cart == null) { //장바구니에 목록이 없다면 null로 반환
+            return null;
+        }
+        return CartMapper.mapToCartDto(cart); //바로 반환해준다
+    }
+
 }
