@@ -28,10 +28,10 @@ public class UserChatRoom {
     private ChatRoom chatRoom; //ManyToOne이지만 사실 2대1관계
 
     @Column
-    private Long myLastReadMessageId; // 내가 가장 마지막에 읽은 메세지
+    private Long myLastReadMessageId = 0L; // 내가 가장 마지막에 읽은 메세지
 
     @Column
-    private Long friendLastReadMessageId; // 상대가 가장 마지막에 읽은 메세지
+    private Long friendLastReadMessageId = 0L; // 상대가 가장 마지막에 읽은 메세지
 
     @Column
     private String friendId; //가입 당시 입력한 id임 ex) kim00
@@ -43,7 +43,7 @@ public class UserChatRoom {
     private Boolean hide = false; // 해당 chatRoom_id을 외래키로 갖는 레코드가 없다면 true(채팅방 숨김)
 
     @Column
-    private Long countMessage; //안읽은 메세지 숫자
+    private Long countMessage = 0L; //안읽은 메세지 숫자
 
 
 

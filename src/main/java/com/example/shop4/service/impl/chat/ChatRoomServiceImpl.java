@@ -7,10 +7,12 @@ import com.example.shop4.repository.MemberRepository;
 import com.example.shop4.repository.chat.ChatRoomRepository;
 import com.example.shop4.repository.chat.UserChatRoomRepository;
 import com.example.shop4.service.chat.ChatRoomService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService {
@@ -53,6 +55,16 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         createUserChatRoom(userB, userA, newChatRoom); // userB의 UserChatRoom 생성
 
         return newChatRoom;
+    }
+
+    @Override
+    public List<UserChatRoom> getAllChatList(Long userId) {
+        Member user = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User A not found"));
+
+        List<UserChatRoom> userChatRooms = userChatRoomRepository.findByMember(user);
+
+        return userChatRooms;
     }
 
     private void createUserChatRoom(Member member, Member friend, ChatRoom chatRoom) {

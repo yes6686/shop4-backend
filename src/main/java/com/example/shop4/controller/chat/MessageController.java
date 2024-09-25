@@ -10,13 +10,16 @@ import com.example.shop4.repository.chat.UserChatRoomRepository;
 import com.example.shop4.service.chat.ChatRoomService;
 import com.example.shop4.service.chat.MessageService;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.GET;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin("*")
@@ -36,11 +39,32 @@ public class MessageController {
     @Autowired
     private MemberRepository memberRepository;
 
+    //채팅방 목록 조회 api
+    @GetMapping("/getChatList/{userId}")
+    public  ResponseEntity<List<UserChatRoom>> getChatList(@PathVariable Long userId){
+        List<UserChatRoom> userChatRooms = chatRoomService.getAllChatList(userId);
+        return ResponseEntity.ok(userChatRooms);
+    }
+
+    // 채팅방 별 메세지 불러오기 api
+    @GetMapping("/getMessageList/{user_chatRoom_id}")
+    public ResponseEntity<List<Message>> getMessageList(@PathVariable Long user_chatRoom_id){
+        List<Message> messages = messageService.getAllMessage(user_chatRoom_id);
+        return ResponseEntity.ok(messages);
+    }
+
     //메세지 전송 api
     @PostMapping
     public ResponseEntity<String> createMessage(@RequestBody MessageDto messageDto) {
         messageService.createMessage(messageDto);
         return new ResponseEntity<>("메세지 전송 완료", HttpStatus.OK);
+    }
+
+    //myLastReadMessageId,friendLastReadMessageId 값을 최신화 시켜주는 api 해당 채팅방 처음 들어갈때만 호출.
+    @GetMapping("/setLastRead/{user_chatRoom_id}")
+    public ResponseEntity<String> setLastRead(@PathVariable Long user_chatRoom_id){
+        messageService.updateLastReadMessageIds(user_chatRoom_id);
+        return ResponseEntity.ok("Last read message IDs updated successfully.");
     }
 
     // A와 B 간의 고유채팅방 ID를 반환하는 API
