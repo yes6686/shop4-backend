@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PaymentService {
     PaymentDto createPayment(PaymentDto paymentDto);
-    Optional<PaymentDto> getPaymentById(Long paymentId);
+    PaymentDto getPaymentById(Long paymentId);
     List<PaymentDto> getAllPayments();
     PaymentDto updatePayment(Long paymentId, PaymentDto updatedPaymentDto);
     void deletePayment(Long paymentId);

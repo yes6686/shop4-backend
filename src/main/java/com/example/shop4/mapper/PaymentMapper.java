@@ -1,8 +1,8 @@
 package com.example.shop4.mapper;
 
 import com.example.shop4.dto.PaymentDto;
+import com.example.shop4.entity.Orders;
 import com.example.shop4.entity.Payment;
-import com.example.shop4.entity.PaymentStatus;
 
 public class PaymentMapper {
     public static PaymentDto mapToPaymentDto(Payment payment) {
@@ -14,15 +14,15 @@ public class PaymentMapper {
                 payment.getDeliveryFee(),
                 payment.getFinalPrice(),
                 payment.getPaymentDate(),
-                payment.getPaymentStatus(), // Enum to String 변환
-                payment.getPaymentMethod(),        // PaymentMethod 추가
-                payment.getOrder()
+                payment.getPaymentStatus(),
+                payment.getPaymentMethod(),
+                payment.getOrder() != null ? payment.getOrder().getId() : null // 주문 ID를 가져옴
         );
     }
 
     // PaymentDto -> Payment Entity 변환
-    public static Payment mapToPayment(PaymentDto paymentDto) {
-        return new Payment(
+    public static Payment mapToPayment(PaymentDto paymentDto, Orders orders) {
+        Payment payment = new Payment(
                 paymentDto.getId(),
                 paymentDto.getPaymentUid(),
                 paymentDto.getTotalPrice(),
@@ -32,7 +32,9 @@ public class PaymentMapper {
                 paymentDto.getPaymentDate(),
                 paymentDto.getPaymentStatus(),
                 paymentDto.getPaymentMethod(),
-                paymentDto.getOrder()
+                orders
         );
+
+        return payment;
     }
 }

@@ -1,10 +1,13 @@
 package com.example.shop4.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +18,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class) // @CreatedDate와 @LastModifiedDate 활성화
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +49,7 @@ public class Orders {
     private OrderStatus orderStatus; // 주문 상태
 
     @Column(name = "order_date")
+    @CreatedDate
     private LocalDateTime orderDate; // 주문 날짜
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,8 +1,11 @@
 package com.example.shop4.service.impl;
 
 import com.example.shop4.dto.PaymentDto;
+import com.example.shop4.entity.Cart;
 import com.example.shop4.entity.Orders;
 import com.example.shop4.entity.Payment;
+import com.example.shop4.exception.ResourceNotFoundException;
+import com.example.shop4.mapper.CartMapper;
 import com.example.shop4.mapper.PaymentMapper;
 import com.example.shop4.repository.OrdersRepository;
 import com.example.shop4.repository.PaymentRepository;
@@ -23,15 +26,22 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto createPayment(PaymentDto paymentDto) {
-        Payment payment = PaymentMapper.mapToPayment(paymentDto);
+        // 먼저 Order를 조회하여 존재하는지 확인
+        Orders order = ordersRepository.findById(paymentDto.getOrderId())
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + paymentDto.getOrderId()));
+        Payment payment = PaymentMapper.mapToPayment(paymentDto, order);
+        payment.setOrder(order); // Order를 Payment에 설정
         Payment savedPayment = paymentRepository.save(payment); // 결제 저장
         return PaymentMapper.mapToPaymentDto(savedPayment);
     }
 
     @Override
-    public Optional<PaymentDto> getPaymentById(Long paymentId) {
-        return paymentRepository.findById(paymentId)
-                .map(PaymentMapper::mapToPaymentDto); // 결제 ID로 조회 후 DTO 변환
+    public PaymentDto getPaymentById(Long paymentId) {
+
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Cart not found id : "+paymentId));
+        return PaymentMapper.mapToPaymentDto(payment);
     }
 
     @Override

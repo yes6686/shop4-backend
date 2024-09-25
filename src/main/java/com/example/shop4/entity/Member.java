@@ -2,6 +2,7 @@ package com.example.shop4.entity;
 
 import com.example.shop4.dto.MemberDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class  Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
