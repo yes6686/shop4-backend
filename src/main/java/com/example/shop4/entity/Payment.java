@@ -19,11 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "payment")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-<<<<<<< HEAD
-@EntityListeners(AuditingEntityListener.class) //@CreatedDate와 @LastModifiedDate 활성화
-=======
 @EntityListeners(AuditingEntityListener.class) // @CreatedDate와 @LastModifiedDate 활성화
->>>>>>> upstream_sub_main
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
