@@ -65,6 +65,39 @@ public class MessageServiceImpl implements MessageService {
         recipientMessage.setContent(messageDto.getContent());
         recipientMessage.setUserChatRoom(recipientUserChatRoom);
         messageRepository.save(recipientMessage);
+
+        // 메시지를 저장한 후에 상대방의 countMessage 업데이트
+        updateRecipientCountMessage(messageDto);
+    }
+
+    private void updateRecipientCountMessage(MessageDto messageDto) {
+        // 메시지를 보낸 사용자
+        Member sender = memberRepository.findById(messageDto.getSender())
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+
+        // 메시지가 속한 채팅방
+        ChatRoom chatRoom = chatRoomRepository.findById(messageDto.getChatRoom())
+                .orElseThrow(() -> new RuntimeException("ChatRoom not found"));
+
+        // 상대방의 UserChatRoom 조회
+        UserChatRoom recipientUserChatRoom = userChatRoomRepository.findByChatRoomAndMemberNot(chatRoom, sender)
+                .orElseThrow(() -> new RuntimeException("Recipient's UserChatRoom not found"));
+
+        // countMessage 업데이트
+        updateCountMessage(recipientUserChatRoom);
+    }
+
+    private void updateCountMessage(UserChatRoom userChatRoom) {
+        // myLastReadMessageId보다 큰 메시지 중 자신이 보낸 메시지가 아닌 메시지의 수를 계산
+        Long myLastReadMessageId = userChatRoom.getMyLastReadMessageId();
+        Member user = userChatRoom.getMember();
+        ChatRoom chatRoom = userChatRoom.getChatRoom();
+
+        Long count = messageRepository.countByChatRoomAndIdGreaterThanAndSenderNotAndUserChatRoom(
+                chatRoom, myLastReadMessageId, user, userChatRoom);
+
+        userChatRoom.setCountMessage(count);
+        userChatRoomRepository.save(userChatRoom);
     }
 
     @Override
@@ -103,7 +136,8 @@ public class MessageServiceImpl implements MessageService {
             myUserChatRoom.setMyLastReadMessageId(0L);
             friendUserChatRoom.setFriendLastReadMessageId(0L);
         }
-
+            // myLastReadMessageId 업데이트 이후 안읽은 메시지의 개수 업데이트
+        updateCountMessage(myUserChatRoom);
 
         userChatRoomRepository.save(myUserChatRoom);
         userChatRoomRepository.save(friendUserChatRoom);
