@@ -291,5 +291,14 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(memberProfile);
     }
 
+    @Override
+    public MemberDto getMemberByUserId(String id) {
+        Member member = memberRepository.findByUserId(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Member not exists with given Userid : " + id));
+
+        return MemberMapper.mapToMemberDto(member);
+    }
+
 
 }

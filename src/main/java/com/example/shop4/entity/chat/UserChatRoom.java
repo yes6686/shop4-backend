@@ -34,7 +34,7 @@ public class UserChatRoom {
     private Long friendLastReadMessageId = 0L; // 상대가 가장 마지막에 읽은 메세지
 
     @Column
-    private String friendId; //가입 당시 입력한 id임 ex) kim00
+    private Long friendId;
 
     @Column
     private String friendName; //대화 상대방의 이름 <- 이게 대화방 제목임

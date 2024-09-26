@@ -34,4 +34,6 @@ public interface MemberService {
     void updateProfileImage(Long memberId, byte[] profileImage);
     //프로필 사진 삭제
     void deleteProfileImage(Long memberId);
+
+    MemberDto getMemberByUserId(String id);
 }

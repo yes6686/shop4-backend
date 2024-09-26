@@ -68,12 +68,15 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     private void createUserChatRoom(Member member, Member friend, ChatRoom chatRoom) {
+
+        String friendId = friend.getUserId();
+        Long realFriendId = memberRepository.findByUserId(friendId).get().getId();
         UserChatRoom userChatRoom = new UserChatRoom();
         userChatRoom.setMember(member);
         userChatRoom.setChatRoom(chatRoom);
         userChatRoom.setMyLastReadMessageId(null);
         userChatRoom.setFriendLastReadMessageId(null);
-        userChatRoom.setFriendId(friend.getUserId());
+        userChatRoom.setFriendId(realFriendId);
         userChatRoom.setFriendName(friend.getName());
         userChatRoom.setHide(false);
         userChatRoom.setCountMessage(0L);

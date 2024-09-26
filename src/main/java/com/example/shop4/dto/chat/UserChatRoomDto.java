@@ -18,7 +18,7 @@ public class UserChatRoomDto {
     private ChatRoom chatRoom; // 채팅방 아이디
     private Long myLastReadMessageId; // 내가 읽은 마지막 메시지 ID
     private Long friendLastReadMessageId; // 상대방이 읽은 마지막 메시지 ID
-    private String friendId; // 친구의 ID
+    private Long friendId; // 친구의 ID
     private String friendName; // 친구의 이름
     private Boolean hide; // 채팅방 숨김 여부
     private Long countMessage; // 안 읽은 메시지 숫자

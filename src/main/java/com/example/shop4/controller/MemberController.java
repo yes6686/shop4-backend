@@ -76,6 +76,16 @@ public class MemberController {
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
+    //가입한 아이디로 회원조회
+    // 회원 조회
+    @GetMapping("/userId/{id}")
+    public ResponseEntity<MemberDto> getMemberByUserId(@PathVariable("id") String id) {
+        MemberDto memberDto = memberService.getMemberByUserId(id);
+
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
+    }
+
+
     // 모든 회원 조회
     @GetMapping
     public ResponseEntity<List<MemberDto>> getMember() {
