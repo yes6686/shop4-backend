@@ -14,6 +14,7 @@
     import org.springframework.stereotype.Service;
 
     import java.time.LocalDate;
+    import java.util.Collections;
     import java.util.List;
     import java.util.stream.Collectors;
 
@@ -104,6 +105,12 @@
         public List<MemberCouponDto> getUserCoupons(Long userId) {
             // 유저가 쿠폰이 있는지 확인
             List<MemberCoupon> memberCoupons = memberCouponRepository.findByMemberId(userId);
+
+            //유저가 쿠폰이 없다면 null로 리턴
+            if(memberCoupons.isEmpty()){
+                System.out.println("ㅎㅎ");
+                return Collections.emptyList(); // null 대신 빈 리스트 반환
+            }
 
             // 사용되지 않은 쿠폰 필터링 후 MemberCouponDto로 변환하여 반환
             return memberCoupons.stream()
