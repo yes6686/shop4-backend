@@ -2,6 +2,7 @@ package com.example.shop4.entity;
 
 import com.example.shop4.dto.MemberDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Member {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class  Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,8 +45,9 @@ public class Member {
     private String userPw;
     @Column
     private Long cash;
-    @Column
-    private String userImage;
+    @Lob
+    @Column(name = "userImage", columnDefinition = "MEDIUMBLOB")
+    private byte[] userImage; // 이미지 데이터를 직접 저장
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -3,6 +3,7 @@ package com.example.shop4.controller;
 import com.example.shop4.dto.CartDto;
 import com.example.shop4.dto.GoodsDto;
 import com.example.shop4.entity.Cart;
+import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.service.CartService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -53,4 +54,23 @@ public class CartController {
         cartService.deleteCart(cartId);
         return ResponseEntity.ok("Carts deleted successfully..!");
     }
+    @PostMapping("/clear-after-payment")
+    public ResponseEntity<String> clearCartAfterPayment(@RequestBody List<Long> goodsIds) {
+        try {
+            cartService.deleteCartsByOrderDetails(goodsIds);
+            return ResponseEntity.ok("장바구니에서 상품이 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("장바구니 삭제 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    // memberId와 goodsId가 매핑된 장바구니가 있는지 확인
+    @GetMapping("/{memberId}/{goodsId}")
+    public ResponseEntity<CartDto> getCartByMemberIdAndGoodsId(@PathVariable("memberId") Long memberId,
+                                                               @PathVariable("goodsId") Long goodsId) {
+        CartDto cartDto = cartService.getCartByMemberIdAndGoodsId(memberId, goodsId);
+        return ResponseEntity.ok(cartDto);
+    }
+
 }

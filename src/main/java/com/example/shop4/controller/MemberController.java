@@ -3,29 +3,71 @@ package com.example.shop4.controller;
 import com.example.shop4.dto.MemberDto;
 import com.example.shop4.service.MemberService;
 import lombok.AllArgsConstructor;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @AllArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/members")
 public class MemberController {
+    private final Tika tika = new Tika(); // Apache Tika 인스턴스 생성
+
     @Autowired
     private MemberService memberService;
-    //회원 추가
+//    //회원 추가
+//    @PostMapping
+//    public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
+//        MemberDto created = memberService.createMember(memberDto);
+//
+//        return new ResponseEntity<>(created, HttpStatus.OK);
+//    }
     @PostMapping
-    public ResponseEntity<MemberDto> createMember(@RequestBody MemberDto memberDto) {
-        MemberDto created = memberService.createMember(memberDto);
+    public ResponseEntity<MemberDto> createMember(
+            @RequestParam("userId") String userId,
+            @RequestParam("userPw") String userPw,
+            @RequestParam("name") String name,
+            @RequestParam("phone") String phone,
+            @RequestParam("email") String email,
+            @RequestParam("birth") LocalDate birth,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        // MemberDto를 생성 (이 부분은 DTO 생성 로직에 따라 달라질 수 있음)
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUserId(userId);
+        memberDto.setUserPw(userPw);
+        memberDto.setName(name);
+        memberDto.setEmail(email);
+        memberDto.setPhone(phone);
+        memberDto.setBirth(birth);
 
-        return new ResponseEntity<>(created, HttpStatus.OK);
+        // 파일 처리 (file은 필요에 따라 설정)
+        if (file != null) {
+            try {
+                byte[] imageBytes = file.getBytes();
+                memberDto.setUserImage(imageBytes);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        // 서비스 호출하여 회원 생성
+        MemberDto createdMember = memberService.createMember(memberDto);
+
+        // 생성된 회원 정보 반환
+        return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
     }
+
     // 회원 조회
     @GetMapping("{id}")
     public ResponseEntity<MemberDto> getMember(@PathVariable("id") Long id) {
@@ -33,6 +75,16 @@ public class MemberController {
 
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
+
+    //가입한 아이디로 회원조회
+    // 회원 조회
+    @GetMapping("/userId/{id}")
+    public ResponseEntity<MemberDto> getMemberByUserId(@PathVariable("id") String id) {
+        MemberDto memberDto = memberService.getMemberByUserId(id);
+
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
+    }
+
 
     // 모든 회원 조회
     @GetMapping
@@ -111,6 +163,61 @@ public class MemberController {
         memberService.deleteFriend(memberId,userId);
         return ResponseEntity.ok("Friend deleted successfully..!");
     }
+
+    //프로필사진 조회
+    @GetMapping("getProfileImage/{memberId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable("memberId") Long memberId) {
+        byte[] imageData = memberService.getProfileImage(memberId);
+        if (imageData == null ||imageData.length == 0) {
+            return ResponseEntity.ok().body(null);
+        }
+
+        // Apache Tika를 사용해 MIME 타입 감지
+        String mimeType = tika.detect(imageData);
+
+        // MIME 타입에 맞춰 MediaType 설정
+        MediaType mediaType;
+        switch (mimeType) {
+            case "image/jpeg":
+                mediaType = MediaType.IMAGE_JPEG;
+                break;
+            case "image/png":
+                mediaType = MediaType.IMAGE_PNG;
+                break;
+            case "image/gif":
+                mediaType = MediaType.IMAGE_GIF;
+                break;
+            default:
+                mediaType = MediaType.APPLICATION_OCTET_STREAM; // 기본값
+        }
+        return ResponseEntity.ok()
+                .contentType(mediaType) // MIME 타입 설정
+                .body(imageData);
+    }
+    //프로필 사진 수정
+    @PatchMapping("updateProfileImage/{memberId}")
+    public ResponseEntity<String> updateProfileImage(@PathVariable("memberId") Long memberId,
+                                                     @RequestParam("file") MultipartFile file) {
+        try {
+
+
+            byte[] imageData = file.getBytes();
+            memberService.updateProfileImage(memberId, imageData);
+            return ResponseEntity.ok("이미지 업데이트");
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @DeleteMapping("deleteProfileImage/{memberId}")
+    public ResponseEntity<String> deleteProfileImage(@PathVariable("memberId") Long memberId) {
+        memberService.deleteProfileImage(memberId);
+        return ResponseEntity.ok("프로필 이미지 삭제 성공");
+    }
+
+
+
+
 
 
 }

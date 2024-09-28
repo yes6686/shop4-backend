@@ -202,7 +202,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 상대방이 이미 나에게 친구 요청을 보냈는지 확인
-        if (friend.getRequested_friends().contains(member.getUserId())) {
+        if (member.getRequested_friends().contains(friend.getUserId())) {
             // 이미 친구 요청을 보낸 상태이므로 바로 친구로 추가
 
             // 서로의 friends 리스트에 상대방을 추가
@@ -224,6 +224,7 @@ public class MemberServiceImpl implements MemberService {
         if (!friend.getRequested_friends().contains(requestedUserId)) {
             friend.getRequested_friends().add(requestedUserId);
             memberRepository.save(friend); // 친구 요청 추가
+            return true;
         }
 
         return true; // 친구 요청이 성공적으로 추가됨
@@ -264,5 +265,40 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
         memberRepository.save(friend);
     }
+
+    //프로필 사진 조회
+    @Override
+    public byte[] getProfileImage(Long memberId) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        return memberProfile.getUserImage() != null ? memberProfile.getUserImage() : new byte[0];
+
+    }
+    //프로필 업데이트
+    @Override
+    public void updateProfileImage(Long memberId, byte[] profileImage) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        memberProfile.setUserImage(profileImage);
+        memberRepository.save(memberProfile);
+    }
+
+    @Override
+    public void deleteProfileImage(Long memberId) {
+        Member memberProfile = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        memberProfile.setUserImage(null);
+        memberRepository.save(memberProfile);
+    }
+
+    @Override
+    public MemberDto getMemberByUserId(String id) {
+        Member member = memberRepository.findByUserId(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Member not exists with given Userid : " + id));
+
+        return MemberMapper.mapToMemberDto(member);
+    }
+
 
 }

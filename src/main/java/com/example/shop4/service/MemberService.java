@@ -28,4 +28,12 @@ public interface MemberService {
     void acceptFriend(Long memberId,String userId);
     //친구 삭제
     void deleteFriend(Long memberId,String userId);
+    //프로필 사진 조회
+    byte[] getProfileImage(Long memberId);
+    //프로필 사진 업데이트
+    void updateProfileImage(Long memberId, byte[] profileImage);
+    //프로필 사진 삭제
+    void deleteProfileImage(Long memberId);
+
+    MemberDto getMemberByUserId(String id);
 }

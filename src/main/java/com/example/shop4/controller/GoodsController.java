@@ -41,6 +41,13 @@ public class GoodsController {
         return ResponseEntity.ok(goodsDto);
     }
 
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<GoodsDto>> getGoodsdByCategory(@PathVariable("category") String category) {
+        List<GoodsDto> goods = goodsService.getGoodsByCategory(category);
+
+        return ResponseEntity.ok(goods);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteGoods(@PathVariable("id") Long goodsId) {
         goodsService.deleteGoods(goodsId);
