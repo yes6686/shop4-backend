@@ -30,7 +30,7 @@ public class OrdersDto {
     private BigDecimal orderPrice; // 주문 가격
     private OrderStatus orderStatus; // 주문 상태
     private LocalDateTime orderDate; // 주문 날짜
-    private Member member; // 회원 정보
+    private Long memberId; // 회원 정보
     private Payment payment; // 결제 정보
     private List<OrderDetail> orderDetails;
 }

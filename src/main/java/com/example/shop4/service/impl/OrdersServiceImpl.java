@@ -5,6 +5,7 @@ import com.example.shop4.entity.*;
 import com.example.shop4.exception.ResourceNotFoundException;
 import com.example.shop4.mapper.OrdersMapper;
 import com.example.shop4.repository.CartRepository;
+import com.example.shop4.repository.MemberRepository;
 import com.example.shop4.repository.OrderDetailRepository;
 import com.example.shop4.repository.OrdersRepository;
 import com.example.shop4.service.OrderService;
@@ -20,10 +21,14 @@ import java.util.stream.Collectors;
 public class OrdersServiceImpl implements OrderService {
 
     private final OrdersRepository ordersRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public OrdersDto createOrder(OrdersDto ordersDto) {
-        Orders orders = OrdersMapper.mapToOrders(ordersDto);
+        Member member = memberRepository.findById(ordersDto.getMemberId())
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+
+        Orders orders = OrdersMapper.mapToOrders(ordersDto, member);
         Orders savedOrder = ordersRepository.save(orders); // 주문 저장
         return OrdersMapper.mapToOrdersDto(savedOrder);
     }

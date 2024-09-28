@@ -1,6 +1,7 @@
 package com.example.shop4.mapper;
 
 import com.example.shop4.dto.OrdersDto;
+import com.example.shop4.entity.Member;
 import com.example.shop4.entity.Orders;
 
 public class OrdersMapper {
@@ -15,13 +16,13 @@ public class OrdersMapper {
                 orders.getOrderPrice(),
                 orders.getOrderStatus(), // Enum directly
                 orders.getOrderDate(),
-                orders.getMember(), // Include member if necessary
+                orders.getMember().getId(), // Include member if necessary
                 orders.getPayment(), // Include payment if necessary
                 orders.getOrderDetails()
         );
     }
 
-    public static Orders mapToOrders(OrdersDto ordersDto) {
+    public static Orders mapToOrders(OrdersDto ordersDto, Member member) {
         return new Orders(
                 ordersDto.getId(),
                 ordersDto.getOrderUid(),
@@ -32,7 +33,7 @@ public class OrdersMapper {
                 ordersDto.getOrderPrice(),
                 ordersDto.getOrderStatus(), // Directly use OrderStatus Enum
                 ordersDto.getOrderDate(),
-                ordersDto.getMember(), // Include member if necessary
+                member, // Include member if necessary
                 ordersDto.getPayment(), // Include payment if necessary
                 ordersDto.getOrderDetails()
         );
